@@ -27,19 +27,19 @@ export class Alien implements GameObject {
         this.image.src = imageURL;
         this.image.style.position = 'absolute';
         this.image.style.zIndex = '999';
-        this.width = this.image.width;;
+        this.width = this.image.width;
         this.height = this.image.height;
         this.explosionImageURLs = explosionImageURLs;
     }
 
     public SetXPos(posX: number) {
         this.posX = posX;
-        this.image.style.posLeft = this.posX;
+        //this.image.style.posLeft = this.posX;
     }
 
     public SetYPos(posY: number) {
         this.posY = posY;
-        this.image.style.posTop = this.posY;
+        //this.image.style.posTop = this.posY;
     }
 
     public Move() {
@@ -58,7 +58,7 @@ export class Alien implements GameObject {
             else
                 this.SetXPos(this.posX - 1);
 
-            this.image.style.posLeft = this.posX;
+            //this.image.style.posLeft = this.posX;
         }
     }
 
@@ -83,8 +83,8 @@ export class Alien implements GameObject {
                         this.viewPort.appendChild(this.explosionImage);
                         this.explosionImage.style.position = 'absolute';
                         this.explosionImage.style.zIndex = '9999';
-                        this.explosionImage.style.posLeft = this.posX;
-                        this.explosionImage.style.posTop = this.posY;
+                        //this.explosionImage.style.posLeft = this.posX;
+                        //this.explosionImage.style.posTop = this.posY;
                     }
                     this.explosionImage.src = this.explosionImageURLs[this.explosionIndex++];
                 }, index * 200);

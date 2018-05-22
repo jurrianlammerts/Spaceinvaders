@@ -2,7 +2,7 @@ import { Alien } from "./Alien";
 import { Ship } from "./Ship";
 import { Rocket } from "./Rocket";
 
-module Game {
+export module Game {
 
     export class Game {
 
@@ -87,28 +87,28 @@ module Game {
                 var keyCode: number = 0;
                 if (keyEvent && keyEvent.keyCode)
                     keyCode = keyEvent.keyCode;
-                else if (window.event && window.event.keyCode)
-                    keyCode = window.event.keyCode;
+                else if (window.event && window.event)
+                    //keyCode = window.event.keyCode;
 
-                if (keyCode) {
-                    switch (keyCode) {
-                        case Game.KeyCodes.LeftArrow:
-                        case Game.KeyCodes.RightArrow:
+                    if (keyCode) {
+                        switch (keyCode) {
+                            case Game.KeyCodes.LeftArrow:
+                            case Game.KeyCodes.RightArrow:
 
-                            this.ship.Move(keyCode);
+                                this.ship.Move(keyCode);
 
-                            break;
+                                break;
 
-                        case Game.KeyCodes.SpaceBar:
+                            case Game.KeyCodes.SpaceBar:
 
-                            if (this.rocket.active)
-                                this.rocket.Move();
-                            else
-                                this.rocket.Start(this.ship.posX + (this.ship.width / 2), this.ship.posY);
+                                if (this.rocket.active)
+                                    this.rocket.Move();
+                                else
+                                    this.rocket.Start(this.ship.posX + (this.ship.width / 2), this.ship.posY);
 
-                            break;
+                                break;
+                        }
                     }
-                }
             });
         }
         private addEventListener(element: any, event: string, listener: EventListener) {

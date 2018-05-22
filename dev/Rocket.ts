@@ -22,12 +22,12 @@ export class Rocket implements GameObject {
     }
     public SetXPos(posX: number) {
         this.posX = posX;
-        this.image.style.posLeft = this.posX;
+        //this.image.style.posLeft = this.posX;
     }
 
     public SetYPos(posY: number) {
         this.posY = posY;
-        this.image.style.posTop = this.posY;
+        //this.image.style.posTop = this.posY;
     }
 
     public Move() {
@@ -39,7 +39,8 @@ export class Rocket implements GameObject {
                 this.active = false;
             }
             else
-                this.image.style.posTop = this.posY;
+                //this.image.style.posTop = this.posY
+                ;
         }
     }
 
