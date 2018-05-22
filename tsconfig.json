@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "allowJs": true,
-    "module": "commonjs",
+    "outDir": "./dist/",
+    "sourceMap": true,
     "noEmit": true,
+    "module": "commonjs",
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,

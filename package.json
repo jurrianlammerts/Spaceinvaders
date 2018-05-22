@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/jurrianlammerts/Spaceinvaders/issues"
   },
-  "homepage": "https://github.com/jurrianlammerts/Spaceinvaders#readme"
+  "homepage": "https://github.com/jurrianlammerts/Spaceinvaders#readme",
+  "devDependencies": {
+    "ts-loader": "^4.3.0",
+    "typescript": "^2.8.3",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3"
+  }
 }

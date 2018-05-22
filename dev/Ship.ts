@@ -1,3 +1,5 @@
+import { Game } from './Game'
+
 export class Ship implements GameObject {
 
     public image: HTMLImageElement = null;
@@ -6,7 +8,31 @@ export class Ship implements GameObject {
     public width: number = 0;
     public height: number = 0;
 
-    constructor() {
+    constructor(imageURL: string, parentElement: HTMLElement) {
+        this.image = <HTMLImageElement>document.createElement('img');
+        parentElement.appendChild(this.image);
+        this.image.src = imageURL;
+        this.image.style.position = 'absolute';
+        this.image.style.zIndex = '1000';
+        this.width = this.image.clientWidth;
+        this.height = this.image.clientHeight;
+    }
 
+    public SetXPos(posX: number) {
+        this.posX = posX;
+        this.image.style.posLeft = this.posX;
+    }
+
+    public SetYPos(posY: number) {
+        this.posY = posY;
+        this.image.style.posTop = this.posY;
+    }
+
+    public Move(direction: number) {
+        if (direction == Game.KeyCodes.LeftArrow)
+            this.SetXPos(this.posX - 8);
+        else if (direction == Game.KeyCodes.RightArrow)
+            this.SetXPos(this.posX + 8);
     }
 }
+

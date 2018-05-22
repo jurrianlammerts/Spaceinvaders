@@ -1,8 +1,8 @@
-module Games {
+import { Alien } from "./Alien";
+import { Ship } from "./Ship";
+import { Rocket } from "./Rocket";
 
-    import { Alien } from "./Alien";
-    import { Ship } from "./Ship";
-    import { Rocket } from "./Rocket";
+module Game {
 
     export class Game {
 
