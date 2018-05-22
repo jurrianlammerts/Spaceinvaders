@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "noEmit": true,
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "assets",
+    "node_modules",
+    "bower_components",
+    "jspm_packages"
+  ],
+  "typeAcquisition": {
+    "enable": true
+  }
+}
