@@ -20,20 +20,15 @@ export class Ship implements GameObject {
     }
 
     public SetXPos(posX: number) {
-        this.posX = posX;
-        //this.image.style.posLeft = this.posX;
+
     }
 
     public SetYPos(posY: number) {
-        this.posY = posY;
-        //this.image.style.posTop = this.posY;
+
     }
 
     public Move(direction: number) {
-        //if (direction == Game.KeyCodes.LeftArrow)
-        this.SetXPos(this.posX - 8);
-        //else if (direction == Game.KeyCodes.RightArrow)
-        this.SetXPos(this.posX + 8);
+
     }
 }
 

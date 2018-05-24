@@ -21,32 +21,20 @@ export class Rocket implements GameObject {
         this.image.style.visibility = 'hidden';
     }
     public SetXPos(posX: number) {
-        this.posX = posX;
-        //this.image.style.posLeft = this.posX;
+
     }
 
     public SetYPos(posY: number) {
-        this.posY = posY;
-        //this.image.style.posTop = this.posY;
+
     }
 
     public Move() {
-        if (this.active) {
-            this.posY -= 5;
 
-            if (this.posY <= 0) {
-                this.image.style.visibility = 'hidden';
-                this.active = false;
-            }
-            else
-                //this.image.style.posTop = this.posY
-                ;
-        }
     }
 
     public Start(posX: number, posY: number) {
-        this.SetXPos(posX);
-        this.SetYPos(posY);
+        // this.SetXPos(posX);
+        // this.SetYPos(posY);
 
         this.image.style.visibility = 'visible';
         this.active = true;
