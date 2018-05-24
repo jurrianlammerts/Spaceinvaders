@@ -1,6 +1,6 @@
-import { Game } from './Game'
 
-export class Rocket implements GameObject {
+
+export default class Rocket implements GameObject {
 
     public image: HTMLImageElement = null;
     public posX: number = 0;

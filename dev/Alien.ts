@@ -1,6 +1,5 @@
-import { Game } from './Game'
 
-export class Alien implements GameObject {
+export default class Alien implements GameObject {
 
     public image: HTMLImageElement = null;
     public explosionImageURLs: string[];
