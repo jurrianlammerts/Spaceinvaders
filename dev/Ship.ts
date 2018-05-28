@@ -32,11 +32,15 @@ export default class Ship extends GameObject {
                 //this.y += 30;
                 break;
             case 32:
-            //this.shoot();
+                this.shoot();
         }
     }
 
-    public update() {
+    public shoot(): void {
+
+    }
+
+    public update(): void {
         this.style.left = this.x
         this.style.top = this.y
     }
