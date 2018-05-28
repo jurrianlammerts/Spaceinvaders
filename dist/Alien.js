@@ -1,33 +1,22 @@
 import GameObject from "./GameObject";
-
 export default class Alien extends GameObject {
-    public explosionImageURLs: string[];
-    private explosionIndex: number;
-
-    public static Direction = { Left: 1, Right: 2 };
-    public currentDirection: number = Alien.Direction.Right;
-    public active: boolean = false;
-
-    private viewPort: HTMLElement;
-
     constructor(explosionImageURLs, ...args) {
         super(...args);
+        this.currentDirection = Alien.Direction.Right;
+        this.active = false;
         this.element.style.position = 'absolute';
         this.element.style.zIndex = '999';
         this.explosionImageURLs = explosionImageURLs;
     }
-
-    public move() {
-
+    move() {
     }
-
-    public start(x: number, y: number) {
+    start(x, y) {
         this.element.style.visibility = 'visible';
         this.active = true;
     }
-
-    public kill() {
+    kill() {
         this.element.style.visibility = 'hidden';
         this.active = false;
     }
 }
+Alien.Direction = { Left: 1, Right: 2 };

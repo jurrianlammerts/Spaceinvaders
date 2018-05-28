@@ -1,14 +1,6 @@
-import applyStyles from "./util/applyStyles"
-
+import applyStyles from "./util/applyStyles";
 export default class GameObject {
-    public element: HTMLElement;
-    public x: number;
-    public y: number;
-    public width: number;
-    public height: number;
-    public style;
-
-    constructor(x?: number, y?: number, width?: number, height?: number, spriteURL?: string, viewport?: HTMLElement) {
+    constructor(x, y, width, height, spriteURL, viewport) {
         this.element = document.createElement("div");
         this.x = x;
         this.y = y;
@@ -25,7 +17,6 @@ export default class GameObject {
             top: `${y}px`,
         };
         applyStyles(this.style, this.element);
-
         viewport.appendChild(this.element);
     }
 }

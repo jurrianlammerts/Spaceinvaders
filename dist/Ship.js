@@ -1,23 +1,17 @@
 import GameObject from './GameObject';
-
 export default class Ship extends GameObject {
-
-    public spriteURL = null;
-    public speed = 8;
-
     constructor(...args) {
-        super(...args, );
-        window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
+        super(...args);
+        this.spriteURL = null;
+        this.speed = 8;
+        window.addEventListener("keydown", (e) => this.onKeyDown(e));
     }
-
-    public start(x: number, y: number) {
+    start(x, y) {
     }
-
-    public move(): void {
+    move() {
         this.element.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
     }
-
-    private onKeyDown(event: KeyboardEvent): void {
+    onKeyDown(event) {
         switch (event.keyCode) {
             case 65:
                 this.x -= this.width;
@@ -35,10 +29,8 @@ export default class Ship extends GameObject {
             //this.shoot();
         }
     }
-
-    public update() {
-        this.style.left = this.x
-        this.style.top = this.y
+    update() {
+        this.style.left = this.x;
+        this.style.top = this.y;
     }
 }
-

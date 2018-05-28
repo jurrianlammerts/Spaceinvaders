@@ -65,35 +65,28 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Game__ = __webpack_require__(1);
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var Game_1 = __importDefault(__webpack_require__(1));
-window.addEventListener("load", function () {
-    new Game_1.default("root");
+window.addEventListener("load", () => {
+    __WEBPACK_IMPORTED_MODULE_0__Game__["a" /* default */].getInstance();
 });
 
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Alien__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Ship__ = __webpack_require__(2);
 
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var Alien_1 = __importDefault(__webpack_require__(2));
-var Ship_1 = __importDefault(__webpack_require__(3));
-var Rocket_1 = __importDefault(__webpack_require__(4));
-var Game = /** @class */ (function () {
-    function Game(viewPortElementId) {
+
+class Game {
+    constructor() {
         this.viewPortHeight = 600;
         this.viewPortWidth = 800;
         this.viewPort = null;
@@ -102,215 +95,239 @@ var Game = /** @class */ (function () {
         this.aliens = null;
         this.lblScore = null;
         this.score = 0;
-        this.viewPort = document.getElementById(viewPortElementId);
-        this.InitiateBattlefield();
-        this.InitiateEvents();
+        this.viewPort = document.getElementById("root");
+        this.initiateBattlefield();
+        this.gameLoop();
+        // this.initiateEvents();
     }
-    Game.prototype.InitiateBattlefield = function () {
-        this.viewPort.style.position = 'absolute';
+    static getInstance() {
+        if (!Game.instance)
+            Game.instance = new Game();
+        return Game.instance;
+    }
+    initiateBattlefield() {
+        this.viewPort.style.position = 'relative';
         this.viewPort.style.width = this.viewPortWidth.toString() + 'px';
         this.viewPort.style.height = this.viewPortHeight.toString() + 'px';
         this.viewPort.style.left = ((document.documentElement.clientWidth - this.viewPortWidth) / 2).toString() + 'px';
         this.viewPort.style.top = ((document.documentElement.clientHeight - this.viewPortHeight) / 2).toString() + 'px';
         this.viewPort.style.backgroundColor = 'Black';
-        this.ship = new Ship_1.default('Images/Alien.png', this.viewPort);
-        this.ship.SetXPos(this.viewPortWidth / 2);
-        this.ship.SetYPos(this.viewPortHeight - this.ship.image.height);
-        this.rocket = new Rocket_1.default('Images/Rocket.png', this.viewPort);
-        this.aliens = new Array();
+        const shipHeight = 60;
+        this.ship = new __WEBPACK_IMPORTED_MODULE_1__Ship__["a" /* default */](
+        // this.viewPortWidth / 2,
+        // this.viewPortHeight - shipHeight,
+        200, 250, 35, shipHeight, "./assets/images/Ship.png", this.viewPort);
+        this.aliens = [];
         for (var indexY = 0; indexY < 2; indexY++) {
             for (var index = 0; index < 10; index++) {
-                var alien = new Alien_1.default('Images/Invader.png', this.viewPort, ['Images/Blowup1.png', 'Images/Blowup2.png', 'Images/Blowup3.png', 'Images/Blowup4.png']);
-                alien.Start(Math.max((alien.width + 20) * index, 1), Math.max((alien.height + 15) * indexY, 1));
-                alien.currentDirection = Alien_1.default.Direction.Right;
+                const alien = new __WEBPACK_IMPORTED_MODULE_0__Alien__["a" /* default */]([
+                    './assets/images/Blowup1.png',
+                    './assets/images/Blowup2.png',
+                    './assets/images/Blowup3.png',
+                    './assets/images/Blowup4.png'
+                ], 150, 300, 47, 34, "./assets/images/Invader.png", this.viewPort);
+                alien.start(Math.max((alien.width + 20) * index, 1), Math.max((alien.height + 15) * indexY, 1));
+                alien.currentDirection = __WEBPACK_IMPORTED_MODULE_0__Alien__["a" /* default */].Direction.Right;
                 this.aliens.push(alien);
             }
         }
-    };
-    Game.prototype.InitiateEvents = function () {
-        var _this = this;
-        setInterval(function () {
-            if (_this.rocket.active)
-                _this.rocket.Move();
-            if (_this.rocket.active) {
-                var rocketRect = _this.rocket.image.getBoundingClientRect();
-                for (var index = 0; index < _this.aliens.length; index++) {
-                    if (_this.aliens[index].active) {
-                        var alienRect = _this.aliens[index].image.getBoundingClientRect();
+    }
+    initiateEvents() {
+        setInterval(() => {
+            if (this.rocket.active)
+                this.rocket.move();
+            if (this.rocket.active) {
+                var rocketRect = this.rocket.element.getBoundingClientRect();
+                for (var index = 0; index < this.aliens.length; index++) {
+                    if (this.aliens[index].active) {
+                        var alienRect = this.aliens[index].element.getBoundingClientRect();
                         if (!(rocketRect.right < alienRect.left || rocketRect.left > alienRect.right || rocketRect.bottom < alienRect.top || rocketRect.top > alienRect.bottom)) {
-                            _this.aliens[index].Kill();
-                            _this.rocket.Kill();
-                            _this.score += 1000;
-                            _this.lblScore.textContent = _this.score.toString();
+                            this.aliens[index].kill();
+                            this.rocket.kill();
+                            this.score += 1000;
+                            this.lblScore.textContent = this.score.toString();
                         }
                     }
                 }
             }
         }, 1);
-        setInterval(function () {
-            for (var index = 0; index < _this.aliens.length; index++)
-                if (_this.aliens[index].active)
-                    _this.aliens[index].Move();
+        setInterval(() => {
+            for (var index = 0; index < this.aliens.length; index++)
+                if (this.aliens[index].active)
+                    this.aliens[index].move();
         }, 1);
-        this.addEventListener(document, 'keydown', function (event) {
+        document.addEventListener('keydown', (event) => {
             var keyEvent = event;
             var keyCode = 0;
             if (keyEvent && keyEvent.keyCode)
                 keyCode = keyEvent.keyCode;
             else if (window.event && window.event)
-                //keyCode = window.event.keyCode;
-                if (keyCode) {
-                    switch (keyCode) {
-                        case Game.KeyCodes.LeftArrow:
-                        case Game.KeyCodes.RightArrow:
-                            _this.ship.Move(keyCode);
-                            break;
-                        case Game.KeyCodes.SpaceBar:
-                            if (_this.rocket.active)
-                                _this.rocket.Move();
-                            else
-                                _this.rocket.Start(_this.ship.posX + (_this.ship.width / 2), _this.ship.posY);
-                            break;
-                    }
+                keyCode = event.keyCode;
+            if (keyCode) {
+                switch (keyCode) {
+                    case Game.KeyCodes.LeftArrow:
+                    case Game.KeyCodes.RightArrow:
+                        this.ship.update();
+                        break;
+                    case Game.KeyCodes.SpaceBar:
+                        if (this.rocket.active)
+                            this.rocket.move();
+                        else
+                            this.rocket.start(this.ship.x + (this.ship.width / 2), this.ship.y);
+                        break;
                 }
+            }
         });
-    };
-    Game.prototype.addEventListener = function (element, event, listener) {
+    }
+    addEventListener(element, event, listener) {
         if (element.addEventListener)
             element.addEventListener(event, listener);
         else if (element.attachEvent)
             element.attachEvent(event, listener);
-    };
-    Game.KeyCodes = { LeftArrow: 37, RightArrow: 39, SpaceBar: 32 };
-    return Game;
-}());
-exports.default = Game;
+    }
+    update() {
+        this.ship.move();
+    }
+    gameLoop() {
+        this.update();
+        requestAnimationFrame(() => this.gameLoop());
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Game;
+
+Game.KeyCodes = { LeftArrow: 37, RightArrow: 39, SpaceBar: 32 };
 
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GameObject__ = __webpack_require__(3);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var Alien = /** @class */ (function () {
-    function Alien(imageURL, viewPort, explosionImageURLs) {
-        this.image = null;
-        this.posX = 0;
-        this.posY = 0;
-        this.width = 0;
-        this.height = 0;
-        this.currentDirection = Alien.Direction.Right;
-        this.active = false;
-        this.viewPort = viewPort;
-        this.image = document.createElement('img');
-        this.viewPort.appendChild(this.image);
-        this.image.src = imageURL;
-        this.image.style.position = 'absolute';
-        this.image.style.zIndex = '999';
-        this.width = this.image.width;
-        this.height = this.image.height;
-        this.explosionImageURLs = explosionImageURLs;
+class Ship extends __WEBPACK_IMPORTED_MODULE_0__GameObject__["a" /* default */] {
+    constructor(...args) {
+        super(...args);
+        this.spriteURL = null;
+        this.speed = 8;
+        window.addEventListener("keydown", (e) => this.onKeyDown(e));
     }
-    Alien.prototype.SetXPos = function (posX) {
-    };
-    Alien.prototype.SetYPos = function (posY) {
-    };
-    Alien.prototype.Move = function () {
-    };
-    Alien.prototype.Start = function (posX, posY) {
-        // this.SetXPos(posX);
-        // this.SetYPos(posY);
-        this.image.style.visibility = 'visible';
-        this.active = true;
-    };
-    Alien.prototype.Kill = function () {
-        this.image.style.visibility = 'hidden';
-        this.active = false;
-    };
-    Alien.Direction = { Left: 1, Right: 2 };
-    return Alien;
-}());
-exports.default = Alien;
+    start(x, y) {
+    }
+    move() {
+        this.element.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
+    }
+    onKeyDown(event) {
+        switch (event.keyCode) {
+            case 65:
+                this.x -= this.width;
+                break;
+            case 68:
+                this.x += this.width;
+                break;
+            case 87:
+                //this.y -= 30;
+                break;
+            case 83:
+                //this.y += 30;
+                break;
+            case 32:
+            //this.shoot();
+        }
+    }
+    update() {
+        this.style.left = this.x;
+        this.style.top = this.y;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Ship;
+
 
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__util_applyStyles__ = __webpack_require__(4);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-var Ship = /** @class */ (function () {
-    function Ship(imageURL, parentElement) {
-        this.image = null;
-        this.posX = 0;
-        this.posY = 0;
-        this.width = 0;
-        this.height = 0;
-        this.image = document.createElement('img');
-        parentElement.appendChild(this.image);
-        this.image.src = imageURL;
-        this.image.style.position = 'absolute';
-        this.image.style.zIndex = '1000';
-        this.width = this.image.clientWidth;
-        this.height = this.image.clientHeight;
+class GameObject {
+    constructor(x, y, width, height, spriteURL, viewport) {
+        this.element = document.createElement("div");
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.style = {
+            position: "absolute",
+            display: "block",
+            backgroundImage: `url(${spriteURL})`,
+            backgroundSize: "cover",
+            width: `${width}px`,
+            height: `${height}px`,
+            left: `${x}px`,
+            top: `${y}px`,
+        };
+        Object(__WEBPACK_IMPORTED_MODULE_0__util_applyStyles__["a" /* default */])(this.style, this.element);
+        viewport.appendChild(this.element);
     }
-    Ship.prototype.SetXPos = function (posX) {
-    };
-    Ship.prototype.SetYPos = function (posY) {
-    };
-    Ship.prototype.Move = function (direction) {
-    };
-    return Ship;
-}());
-exports.default = Ship;
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = GameObject;
+
 
 
 /***/ }),
 /* 4 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var Rocket = /** @class */ (function () {
-    function Rocket(imageURL, parentElement) {
-        this.image = null;
-        this.posX = 0;
-        this.posY = 0;
-        this.width = 0;
-        this.height = 0;
-        this.active = false;
-        this.image = document.createElement('img');
-        parentElement.appendChild(this.image);
-        this.image.src = imageURL;
-        this.image.style.position = 'absolute';
-        this.image.style.zIndex = '999';
-        this.width = this.image.clientWidth;
-        this.height = this.image.clientHeight;
-        this.image.style.visibility = 'hidden';
+/* harmony export (immutable) */ __webpack_exports__["a"] = applyStyles;
+// import entries from 'object.entries';
+if (!Object.entries)
+    Object.entries = function (obj) {
+        var ownProps = Object.keys(obj), i = ownProps.length, resArray = new Array(i); // preallocate the Array
+        while (i--)
+            resArray[i] = [ownProps[i], obj[ownProps[i]]];
+        return resArray;
+    };
+function applyStyles(styles, el) {
+    for (const [key, value] of Object.entries(styles)) {
+        el.style[key] = value;
     }
-    Rocket.prototype.SetXPos = function (posX) {
-    };
-    Rocket.prototype.SetYPos = function (posY) {
-    };
-    Rocket.prototype.Move = function () {
-    };
-    Rocket.prototype.Start = function (posX, posY) {
-        // this.SetXPos(posX);
-        // this.SetYPos(posY);
-        this.image.style.visibility = 'visible';
-        this.active = true;
-    };
-    Rocket.prototype.Kill = function () {
-        this.image.style.visibility = 'hidden';
+}
+
+
+/***/ }),
+/* 5 */,
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__GameObject__ = __webpack_require__(3);
+
+class Alien extends __WEBPACK_IMPORTED_MODULE_0__GameObject__["a" /* default */] {
+    constructor(explosionImageURLs, ...args) {
+        super(...args);
+        this.currentDirection = Alien.Direction.Right;
         this.active = false;
-    };
-    return Rocket;
-}());
-exports.default = Rocket;
+        this.element.style.position = 'absolute';
+        this.element.style.zIndex = '999';
+        this.explosionImageURLs = explosionImageURLs;
+    }
+    move() {
+    }
+    start(x, y) {
+        this.element.style.visibility = 'visible';
+        this.active = true;
+    }
+    kill() {
+        this.element.style.visibility = 'hidden';
+        this.active = false;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Alien;
+
+Alien.Direction = { Left: 1, Right: 2 };
 
 
 /***/ })

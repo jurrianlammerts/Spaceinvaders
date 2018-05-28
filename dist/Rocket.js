@@ -1,25 +1,18 @@
 import GameObject from "./GameObject";
-
 export default class Rocket extends GameObject {
-    public active: boolean = false;
-
     constructor(...args) {
         super(...args);
+        this.active = false;
         this.element.style.visibility = "hidden";
         this.element.style.zIndex = '999';
     }
-
-    public move() {
-
+    move() {
     }
-
-    public start(x: number, y: number) {
-
+    start(x, y) {
         this.element.style.visibility = 'visible';
         this.active = true;
     }
-
-    public kill() {
+    kill() {
         this.element.style.visibility = 'hidden';
         this.active = false;
     }
