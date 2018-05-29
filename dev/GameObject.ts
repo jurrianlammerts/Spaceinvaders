@@ -6,7 +6,7 @@ export default class GameObject {
     public y: number;
     public width: number;
     public height: number;
-    public style;
+    public style: any;
 
     constructor(x?: number, y?: number, width?: number, height?: number, spriteURL?: string, viewport?: HTMLElement) {
         this.element = document.createElement("div");

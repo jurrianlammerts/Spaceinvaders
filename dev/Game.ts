@@ -4,10 +4,9 @@ import Rocket from "./Rocket";
 
 export default class Game {
     private static instance: Game;
-    public static KeyCodes = { LeftArrow: 37, RightArrow: 39, SpaceBar: 32 };
 
-    private viewPortHeight: number = 600;
-    private viewPortWidth: number = 800;
+    private viewPortHeight: number =  document.documentElement.clientHeight;
+    private viewPortWidth: number = document.documentElement.clientWidth;
 
     private viewPort: HTMLElement = null;
 
@@ -22,7 +21,7 @@ export default class Game {
         this.viewPort = <HTMLElement>document.getElementById("root");
         this.initiateBattlefield();
         this.gameLoop();
-        // this.initiateEvents();
+        //this.initiateEvents();
     }
 
     static getInstance() {
@@ -31,7 +30,7 @@ export default class Game {
         return Game.instance;
     }
 
-    private initiateBattlefield() {
+     initiateBattlefield() {
         this.viewPort.style.position = 'relative';
         this.viewPort.style.width = this.viewPortWidth.toString() + 'px';
         this.viewPort.style.height = this.viewPortHeight.toString() + 'px';
@@ -39,14 +38,12 @@ export default class Game {
         this.viewPort.style.top = ((document.documentElement.clientHeight - this.viewPortHeight) / 2).toString() + 'px';
         this.viewPort.style.backgroundColor = 'Black';
 
-        const shipHeight = 60;
         this.ship = new Ship(
-            // this.viewPortWidth / 2,
             // this.viewPortHeight - shipHeight,
             200,
             250,
             35,
-            shipHeight,
+            60,
             "./assets/images/Ship.png",
             this.viewPort
         );
@@ -74,64 +71,37 @@ export default class Game {
         }
     }
 
-    private initiateEvents() {
-        setInterval(() => {
-            if (this.rocket.active)
-                this.rocket.move();
+    // private initiateEvents() {
+    //     setInterval(() => {
+    //         if (this.rocket.active)
+    //             this.rocket.move();
 
-            if (this.rocket.active) {
-                var rocketRect: ClientRect = this.rocket.element.getBoundingClientRect();
+    //         if (this.rocket.active) {
+    //             var rocketRect: ClientRect = this.rocket.element.getBoundingClientRect();
 
-                for (var index = 0; index < this.aliens.length; index++) {
-                    if (this.aliens[index].active) {
-                        var alienRect: ClientRect = this.aliens[index].element.getBoundingClientRect();
-                        if (!(rocketRect.right < alienRect.left || rocketRect.left > alienRect.right || rocketRect.bottom < alienRect.top || rocketRect.top > alienRect.bottom)) {
-                            this.aliens[index].kill();
-                            this.rocket.kill();
+    //             for (var index = 0; index < this.aliens.length; index++) {
+    //                 if (this.aliens[index].active) {
+    //                     var alienRect: ClientRect = this.aliens[index].element.getBoundingClientRect();
+    //                     if (!(rocketRect.right < alienRect.left || rocketRect.left > alienRect.right || rocketRect.bottom < alienRect.top || rocketRect.top > alienRect.bottom)) {
+    //                         this.aliens[index].kill();
+    //                         this.rocket.kill();
 
-                            this.score += 1000;
-                            this.lblScore.textContent = this.score.toString();
-                        }
-                    }
-                }
-            }
+    //                         this.score += 1000;
+    //                         this.lblScore.textContent = this.score.toString();
+    //                     }
+    //                 }
+    //             }
+    //         }
 
-        }, 1);
+    //     }, 1);
 
-        setInterval(() => {
-            for (var index = 0; index < this.aliens.length; index++)
-                if (this.aliens[index].active)
-                    this.aliens[index].move();
-        }, 1);
+    //     setInterval(() => {
+    //         for (var index = 0; index < this.aliens.length; index++)
+    //             if (this.aliens[index].active)
+    //                 this.aliens[index].move();
+    //     }, 1);
+    // }
 
-        document.addEventListener('keydown', (event) => {
-            var keyEvent: KeyboardEvent = <KeyboardEvent>event;
-            var keyCode: number = 0;
-            if (keyEvent && keyEvent.keyCode)
-                keyCode = keyEvent.keyCode;
-            else if (window.event && window.event)
-                keyCode = event.keyCode;
-
-            if (keyCode) {
-                switch (keyCode) {
-                    case Game.KeyCodes.LeftArrow:
-                    case Game.KeyCodes.RightArrow:
-
-                        this.ship.update();
-
-                        break;
-
-                    case Game.KeyCodes.SpaceBar:
-
-                        if (this.rocket.active)
-                            this.rocket.move();
-                        else
-                            this.rocket.start(this.ship.x + (this.ship.width / 2), this.ship.y);
-                        break;
-                }
-            }
-        });
-    }
     private addEventListener(element: any, event: string, listener: EventListener) {
         if (element.addEventListener)
             element.addEventListener(event, listener);
@@ -141,6 +111,7 @@ export default class Game {
 
     private update() {
         this.ship.move();
+        this.ship.update();
     }
 
     private gameLoop() {

@@ -1,4 +1,5 @@
-// import entries from 'object.entries';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 if (!Object.entries)
     Object.entries = function (obj) {
         var ownProps = Object.keys(obj), i = ownProps.length, resArray = new Array(i); // preallocate the Array
@@ -6,8 +7,10 @@ if (!Object.entries)
             resArray[i] = [ownProps[i], obj[ownProps[i]]];
         return resArray;
     };
-export default function applyStyles(styles, el) {
+function applyStyles(styles, el) {
     for (const [key, value] of Object.entries(styles)) {
         el.style[key] = value;
     }
 }
+exports.default = applyStyles;
+//# sourceMappingURL=applyStyles.js.map

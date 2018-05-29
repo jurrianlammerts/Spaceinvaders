@@ -1,4 +1,4 @@
-// import entries from 'object.entries';
+import entries from 'object.entries';
 
 if (!Object.entries)
     Object.entries = function (obj) {
@@ -15,4 +15,4 @@ export default function applyStyles(styles: object, el: HTMLElement) {
     for (const [key, value] of Object.entries(styles)) {
         el.style[key] = value;
     }
-}
+} 
