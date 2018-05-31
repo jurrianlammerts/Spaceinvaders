@@ -1,6 +1,9 @@
 import GameObject from "./GameObject";
 
 export default class Alien extends GameObject {
+    private x: number = 0;
+    private y: number = 0;
+    
     public explosionImageURLs: string[];
     private explosionIndex: number;
 

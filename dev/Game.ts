@@ -5,10 +5,10 @@ import Rocket from "./Rocket";
 export default class Game {
     private static instance: Game;
 
-    private viewPortHeight: number =  document.documentElement.clientHeight;
+    private viewPortHeight: number = document.documentElement.clientHeight;
     private viewPortWidth: number = document.documentElement.clientWidth;
 
-    private viewPort: HTMLElement = null;
+    public viewPort: HTMLElement = null;
 
     private ship: Ship = null;
     public rocket: Rocket = null;
@@ -21,7 +21,8 @@ export default class Game {
         this.viewPort = <HTMLElement>document.getElementById("root");
         this.initiateBattlefield();
         this.gameLoop();
-        //this.initiateEvents();
+        this.initiateEvents();
+        window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
     }
 
     static getInstance() {
@@ -30,7 +31,7 @@ export default class Game {
         return Game.instance;
     }
 
-     initiateBattlefield() {
+    private initiateBattlefield() {
         this.viewPort.style.position = 'relative';
         this.viewPort.style.width = this.viewPortWidth.toString() + 'px';
         this.viewPort.style.height = this.viewPortHeight.toString() + 'px';
@@ -39,8 +40,6 @@ export default class Game {
         this.viewPort.style.backgroundColor = 'Black';
 
         this.ship = new Ship(
-            this.viewPortWidth / 4,
-            300,
             35,
             60,
             "./assets/images/Ship.png",
@@ -56,8 +55,6 @@ export default class Game {
                     './assets/images/Blowup3.png',
                     './assets/images/Blowup4.png'
                 ],
-                    150,
-                    300,
                     47,
                     34,
                     "./assets/images/Invader.png",
@@ -70,42 +67,67 @@ export default class Game {
         }
     }
 
-    // private initiateEvents() {
-    //     setInterval(() => {
-    //         if (this.rocket.active)
-    //             this.rocket.move();
+    private initiateEvents() {
+        setInterval(() => {
+            if (this.rocket.active)
+                this.rocket.move();
 
-    //         if (this.rocket.active) {
-    //             var rocketRect: ClientRect = this.rocket.element.getBoundingClientRect();
+            if (this.rocket.active) {
+                var rocketRect: ClientRect = this.rocket.element.getBoundingClientRect();
 
-    //             for (var index = 0; index < this.aliens.length; index++) {
-    //                 if (this.aliens[index].active) {
-    //                     var alienRect: ClientRect = this.aliens[index].element.getBoundingClientRect();
-    //                     if (!(rocketRect.right < alienRect.left || rocketRect.left > alienRect.right || rocketRect.bottom < alienRect.top || rocketRect.top > alienRect.bottom)) {
-    //                         this.aliens[index].kill();
-    //                         this.rocket.kill();
+                for (var index = 0; index < this.aliens.length; index++) {
+                    if (this.aliens[index].active) {
+                        var alienRect: ClientRect = this.aliens[index].element.getBoundingClientRect();
+                        if (!(rocketRect.right < alienRect.left || rocketRect.left > alienRect.right || rocketRect.bottom < alienRect.top || rocketRect.top > alienRect.bottom)) {
+                            this.aliens[index].kill();
+                            this.rocket.kill();
 
-    //                         this.score += 1000;
-    //                         this.lblScore.textContent = this.score.toString();
-    //                     }
-    //                 }
-    //             }
-    //         }
+                            this.score += 1000;
+                            this.lblScore.textContent = this.score.toString();
+                        }
+                    }
+                }
+            }
 
-    //     }, 1);
+        }, 1);
 
-    //     setInterval(() => {
-    //         for (var index = 0; index < this.aliens.length; index++)
-    //             if (this.aliens[index].active)
-    //                 this.aliens[index].move();
-    //     }, 1);
-    // }
+        setInterval(() => {
+            for (var index = 0; index < this.aliens.length; index++)
+                if (this.aliens[index].active)
+                    this.aliens[index].move();
+        }, 1);
+    }
 
     private addEventListener(element: any, event: string, listener: EventListener) {
         if (element.addEventListener)
             element.addEventListener(event, listener);
         else if (element.attachEvent)
             element.attachEvent(event, listener);
+    }
+
+    private onKeyDown(event: KeyboardEvent): void {
+        switch (event.keyCode) {
+            case 65:
+                if (!(this.ship.x - this.ship.width < document.documentElement.clientLeft)) {
+                    this.ship.x -= this.ship.width;
+                }
+                break;
+            case 68:
+            console.log("calc = ",this.ship.x + this.ship.width)
+            console.log("left ", document.documentElement.clientWidth)
+                if (!(this.ship.x + 2 * this.ship.width > document.documentElement.clientWidth)) {
+                    this.ship.x += this.ship.width;
+                }
+                break;
+            case 32:
+                if (this.rocket.active) {
+                    this.rocket.move();
+                }
+                else {
+                    this.rocket.start(this.ship.x + (this.ship.width / 2), this.ship.y);
+                    console.log("Boom")
+                }
+        }
     }
 
     private update() {
