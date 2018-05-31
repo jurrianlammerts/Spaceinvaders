@@ -10,11 +10,21 @@ export default class Rocket extends GameObject {
     }
 
     public move() {
+        if (this.active)
+        {
+            this.y-=5;
 
+            if (this.y <= 0)
+            {
+                this.element.style.visibility = 'hidden';
+                this.active = false;
+            }
+            else
+                this.element.style.top = this.y.toString();
+        }			
     }
 
     public start(x: number, y: number) {
-
         this.element.style.visibility = 'visible';
         this.active = true;
     }

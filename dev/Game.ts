@@ -39,9 +39,8 @@ export default class Game {
         this.viewPort.style.backgroundColor = 'Black';
 
         this.ship = new Ship(
-            // this.viewPortHeight - shipHeight,
-            200,
-            250,
+            this.viewPortWidth / 4,
+            300,
             35,
             60,
             "./assets/images/Ship.png",
@@ -111,7 +110,6 @@ export default class Game {
 
     private update() {
         this.ship.move();
-        this.ship.update();
     }
 
     private gameLoop() {
