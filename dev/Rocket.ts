@@ -1,11 +1,12 @@
 import GameObject from "./GameObject";
 
 export default class Rocket extends GameObject {
-    public active: boolean;
+    public active: boolean = false;
     public x: number = 0;
     public y: number = 0;
     public width: number = 0;
     public height: number = 0;
+    private spriteURL = null;
 
     constructor(...args) {
         super(...args);
@@ -13,25 +14,25 @@ export default class Rocket extends GameObject {
         this.element.style.zIndex = '999';
         this.width = 5;
         this.height = 10;
-        this.active = false;
     }
 
     public SetXPos(posX: number) {
         this.x = posX;
-        let stringX = this.element.style.transform = "translate(" + this.x + "px";
+        let stringX = this.element.style.transform = "translate(" + this.x + "px)";
         this.element.style.left = stringX;
     }
 
     public SetYPos(posY: number) {
         this.y = posY;
-        let stringY = this.element.style.transform = "translate(" + this.y + "px";
+        let stringY = this.element.style.transform = "translate(" + this.y + "px)";
         this.element.style.top = stringY;
     }
 
     public move() {
-        let stringY = this.element.style.transform = "translate(" + this.y + "px";
+        let stringY = this.element.style.transform = "translate(" + this.y + "px)";
         if (this.active) {
             this.y -= 5;
+            this.element.style.transform = "translate(" + this.x + "px, " + this.y + "px)";
 
             if (this.y <= 0) {
                 this.element.style.visibility = 'hidden';
