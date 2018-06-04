@@ -1,3 +1,5 @@
+import Rocket from './Rocket';
+import Alien from './Alien';
 import applyStyles from "./util/applyStyles"
 
 export default class GameObject {
@@ -8,7 +10,7 @@ export default class GameObject {
     public y: number = 0;
     public active: boolean = false;
 
-    constructor(width?: number, height?: number, spriteURL?: string, viewport?: HTMLElement) {
+    constructor(width?: number, height?: number, spriteURL?: string, viewport?: HTMLElement, startHidden?: boolean) {
         this.element = document.createElement("div");
         this.width = width;
         this.height = height;
@@ -19,8 +21,12 @@ export default class GameObject {
             backgroundImage: `url(${spriteURL})`,
             backgroundSize: "cover",
             width: `${width}px`,
-            height: `${height}px`,
+            height: `${height}px`
         }, this.element);
+
+        // Nog meer polymorfisme
+        if (startHidden)
+            applyStyles({ visibility: "hidden" }, this.element)
 
         viewport.appendChild(this.element);
     }
@@ -47,4 +53,6 @@ export default class GameObject {
             visibility: 'hidden'
         }, this.element);
     }
+
+    public move() { };
 }

@@ -7,10 +7,6 @@ export default class Rocket extends GameObject {
 
     constructor(...args) {
         super(...args);
-        applyStyles({
-            visibility: "hidden",
-            zIndex: "999"
-        }, this.element);
     }
 
     public move() {

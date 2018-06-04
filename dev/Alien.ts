@@ -6,35 +6,30 @@ export default class Alien extends GameObject {
     public currentDirection: number = Alien.Direction.Right;
     public active: boolean = false;
 
+    private movementSpeed: number = 2;
+
     private viewPort: HTMLElement;
 
     constructor(...args) {
         super(...args);
-        applyStyles({
-            position: "absolute",
-            zIndex: "999"
-        }, this.element);
     }
 
     public move() {
         if (this.active) {
-            if (this.x <= 0) {
+            if (this.x <= 3) {
                 this.currentDirection = Alien.Direction.Right;
-                this.updatePosition({ y: this.y + 10 });
+                this.updatePosition({ y: this.y + this.height });
             }
             else if (this.x + this.width >= this.element.parentElement.clientWidth) {
                 this.currentDirection = Alien.Direction.Left;
-                this.updatePosition({ y: this.y + 10 });
+                this.updatePosition({ y: this.y + this.height });
             }
 
             if (this.currentDirection == Alien.Direction.Right)
-                this.updatePosition({ x: this.x + 1 });
+                this.updatePosition({ x: this.x + this.movementSpeed });
             else
-                this.updatePosition({ x: this.x - 1 });
+                this.updatePosition({ x: this.x - this.movementSpeed });
 
-            // let stringX = this.element.style.transform = "translate(" + this.x + "px)";
-
-            // this.element.style.left = stringX;
             this.updatePosition({ x: this.x });
         }
     }
