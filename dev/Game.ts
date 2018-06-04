@@ -1,6 +1,7 @@
 import Alien from "./Alien";
 import Ship from "./Ship";
 import Rocket from "./Rocket";
+import applyStyles from "./util/applyStyles";
 
 export default class Game {
     private static instance: Game;
@@ -13,17 +14,20 @@ export default class Game {
 
     private ship: Ship = null;
     public rocket: Rocket = null;
-    public aliens: Alien[] = null;
+    public aliens: Alien[] = [];
 
     private lblScore: HTMLLabelElement = null;
     private score: number = 0;
+
+    private alienColumns: number = 10;
+    private alienRows: number = 2;
+
 
     constructor() {
         this.viewPort = <HTMLElement>document.getElementById("root");
         this.lblScore = <HTMLLabelElement>document.getElementById('score');
         this.initiateBattlefield();
         this.gameLoop();
-        this.initiateEvents();
         window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
     }
 
@@ -34,13 +38,14 @@ export default class Game {
     }
 
     public initiateBattlefield() {
-        this.viewPort.style.position = 'relative';
-        this.viewPort.style.width = this.viewPortWidth.toString() + 'px';
-        this.viewPort.style.height = this.viewPortHeight.toString() + 'px';
-        this.viewPort.style.left = ((document.documentElement.clientWidth - this.viewPortWidth) / 2).toString() + 'px';
-        this.viewPort.style.top = ((document.documentElement.clientHeight - this.viewPortHeight) / 2).toString() + 'px';
-        this.viewPort.style.backgroundColor = 'Black';
-
+        applyStyles({
+            position: "relative",
+            width: `${this.viewPortWidth}px`,
+            height: `${this.viewPortHeight}px`,
+            left: "0px",
+            top: "0px",
+            backgroundColor: "black"
+        }, this.viewPort);
         this.running = true;
 
         this.ship = new Ship(
@@ -55,56 +60,54 @@ export default class Game {
             "./assets/images/Rocket.png",
             this.viewPort
         );
-        this.aliens = [];
-        for (let indexY = 0; indexY < 2; indexY++) {
-            for (let index = 0; index < 10; index++) {
-                const alien: Alien = new Alien([
-                    './assets/images/Blowup1.png',
-                    './assets/images/Blowup2.png',
-                    './assets/images/Blowup3.png',
-                    './assets/images/Blowup4.png'
-                ],
+
+        this.generateAliens();
+    }
+
+    private generateAliens(): void {
+        for (let y = 0; y < this.alienRows; y++) {
+            for (let x = 0; x < this.alienColumns; x++) {
+                const alien = new Alien(
                     47,
                     34,
                     "./assets/images/Invader.png",
                     this.viewPort,
                 )
-                alien.start(Math.max((alien.width + 20) * index, 1), Math.max((alien.height + 15) * indexY, 1));
+                alien.start(
+                    (alien.width + 20) * x,
+                    (alien.height + 15) * y
+                );
                 alien.currentDirection = Alien.Direction.Right;
                 this.aliens.push(alien);
             }
         }
     }
 
-    private initiateEvents() {
-        setInterval(() => {
-            if (this.rocket.active)
-                this.rocket.move();
+    private updateGame() {
+        if (this.rocket.active)
+            this.rocket.move();
 
-            if (this.rocket.active) {
-                const rocketRect: ClientRect = this.rocket.element.getBoundingClientRect();
+        if (this.rocket.active) {
+            const rocketRect: ClientRect = this.rocket.element.getBoundingClientRect();
 
-                for (let index = 0; index < 100; index++) {
-                    if (this.aliens[index].active) {
-                        let alienRect: ClientRect = this.aliens[index].element.getBoundingClientRect();
-                        if (!(rocketRect.right < alienRect.left || rocketRect.left > alienRect.right || rocketRect.bottom < alienRect.top || rocketRect.top > alienRect.bottom)) {
-                            this.aliens[index].kill();
-                            this.rocket.kill();
+            for (let index = 0; index < 100; index++) {
+                if (this.aliens[index].active) {
+                    let alienRect: ClientRect = this.aliens[index].element.getBoundingClientRect();
+                    if (!(rocketRect.right < alienRect.left || rocketRect.left > alienRect.right || rocketRect.bottom < alienRect.top || rocketRect.top > alienRect.bottom)) {
+                        this.aliens[index].kill();
+                        this.rocket.kill();
 
-                            this.score += 50;
-                            this.lblScore.textContent = this.score.toString();
-                        }
+                        this.score += 50;
+                        this.lblScore.textContent = this.score.toString();
                     }
                 }
             }
+        }
 
-        }, 1);
+        for (var index = 0; index < this.aliens.length; index++)
+            if (this.aliens[index].active)
+                this.aliens[index].move();
 
-        setInterval(() => {
-            for (var index = 0; index < this.aliens.length; index++)
-                if (this.aliens[index].active)
-                    this.aliens[index].move();
-        }, 1);
     }
 
     private addEventListener(element: any, event: string, listener: EventListener) {
@@ -117,37 +120,31 @@ export default class Game {
     private onKeyDown(event: KeyboardEvent): void {
         switch (event.keyCode) {
             case 65:
+                console.log(this.ship.x, this.ship.y)
                 if (!(this.ship.x - this.ship.width < document.documentElement.clientLeft)) {
-                    this.ship.x -= this.ship.width;
+                    this.ship.updatePosition({
+                        x: this.ship.x - this.ship.width
+                    });
                 }
                 break;
             case 68:
-                console.log("calc = ", this.ship.x + this.ship.width)
-                console.log("left ", document.documentElement.clientWidth)
                 if (!(this.ship.x + 2 * this.ship.width > document.documentElement.clientWidth)) {
-                    this.ship.x += this.ship.width;
+                    this.ship.updatePosition({ x: this.ship.x + this.ship.width });
                 }
                 break;
             case 32:
-                if (this.rocket.active) {
+                if (!this.rocket.active) {
+                    this.rocket.start(this.ship.x + (this.ship.width / 2), this.ship.y);
                     this.rocket.move();
                 }
-                else {
-                    this.rocket.start(this.ship.x + (this.ship.width / 2), this.ship.y);
-                    console.log("Boom")
-                }
+
+                break;
         }
     }
 
-    private update(): void {
-        this.ship.move();
-    }
-
     private gameLoop(): void {
-        if(this.running){
-		    this.update();
-		}
-		requestAnimationFrame(()=> this.gameLoop())
+        this.updateGame();
+        requestAnimationFrame(() => this.gameLoop())
     }
 }
 

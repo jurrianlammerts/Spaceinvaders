@@ -8,6 +8,9 @@ run npm install then run webpack
 # OOP principles
 
 * Singleton 
+
+De singleton implementatie wordt gemaakt door een klas te definiëren met de methode getInstance die een nieuw object aanmaakt als het nog niet bestaat en een bestaand object teruggeeft als er al wel een dergelijk object bestaat.
+
     ```
     static getInstance() {
         if (!Game.instance)
