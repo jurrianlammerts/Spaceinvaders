@@ -5,6 +5,25 @@ Een game gemaakt in Typescript voor het leren van OOP
 # Installation
 run npm install then run webpack
 
+# OOP principles
+
+* Singleton 
+    '''
+    static getInstance() {
+        if (!Game.instance)
+            Game.instance = new Game();
+        return Game.instance;
+    }
+    '''
+
+* Polymorfisme
+
+* Strategy
+
+* Observer 
+
+
+
 # Pull request
 
 __Week 4: PULL REQUEST__
