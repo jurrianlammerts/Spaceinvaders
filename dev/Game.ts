@@ -20,12 +20,12 @@ export default class Game {
 
     constructor() {
         this.viewPort = <HTMLElement>document.getElementById("root");
+        this.lblScore = <HTMLLabelElement>document.getElementById('score');
         this.initiateBattlefield();
         this.gameLoop();
         this.initiateEvents();
         window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
     }
-
 
     static getInstance() {
         if (!Game.instance)
@@ -91,8 +91,8 @@ export default class Game {
                             this.aliens[index].kill();
                             this.rocket.kill();
 
-                            this.score += 1000;
-                            //this.lblScore.textContent = this.score.toString();
+                            this.score += 50;
+                            this.lblScore.textContent = this.score.toString();
                         }
                     }
                 }

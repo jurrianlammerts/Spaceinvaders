@@ -2,6 +2,9 @@
 
 Een game gemaakt in Typescript voor het leren van OOP
 
+# Installation
+run npm install then run webpack
+
 # Pull request
 
 __Week 4: PULL REQUEST__

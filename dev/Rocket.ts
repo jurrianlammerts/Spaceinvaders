@@ -46,12 +46,12 @@ export default class Rocket extends GameObject {
     public start(x: number, y: number) {
         this.SetXPos(x);
         this.SetYPos(y);
-        this.element.style.visibility = 'visible';
         this.active = true;
+        this.element.style.visibility = 'visible';
     }
 
     public kill() {
-        this.element.style.visibility = 'hidden';
         this.active = false;
+        this.element.style.visibility = 'hidden';
     }
 }
