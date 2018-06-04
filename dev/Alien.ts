@@ -6,17 +6,18 @@ export default class Alien extends GameObject {
     public currentDirection: number = Alien.Direction.Right;
     public active: boolean = false;
 
-    private movementSpeed: number = 2;
+    private movementSpeed: number = 1;
 
     private viewPort: HTMLElement;
 
-    constructor(...args) {
+    constructor(movementSpeed: number, ...args) {
         super(...args);
+        this.movementSpeed = movementSpeed;
     }
 
     public move() {
         if (this.active) {
-            if (this.x <= 3) {
+            if (this.x <= 10) {
                 this.currentDirection = Alien.Direction.Right;
                 this.updatePosition({ y: this.y + this.height });
             }

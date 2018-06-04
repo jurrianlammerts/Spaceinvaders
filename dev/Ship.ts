@@ -35,7 +35,6 @@ export default class Ship extends GameObject {
                     game.rocket.start(this.x + (this.width / 2), this.y);
                     game.rocket.move();
                 }
-
                 break;
         }
     }

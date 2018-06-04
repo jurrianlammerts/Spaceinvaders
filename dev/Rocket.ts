@@ -12,7 +12,7 @@ export default class Rocket extends GameObject {
     public move() {
         if (this.active) {
             this.updatePosition({
-                x: this.x, y: this.y -= 5
+                x: this.x, y: this.y -= 7
             });
 
             if (this.y <= 0)
