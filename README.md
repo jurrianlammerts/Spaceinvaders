@@ -8,13 +8,13 @@ run npm install then run webpack
 # OOP principles
 
 * Singleton 
-    '''
+    ```
     static getInstance() {
         if (!Game.instance)
             Game.instance = new Game();
         return Game.instance;
     }
-    '''
+    ```
 
 * Polymorfisme
 
