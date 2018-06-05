@@ -1,41 +1,40 @@
-import GameObject from './GameObject';
-import Game from './Game';
+import GameObject from "./GameObject";
+import Game from "./Game";
 
 export default class Ship extends GameObject {
-    private spriteURL = null;
+  private spriteURL = null;
 
-    constructor(...args) {
-        super(...args);
-        this.updatePosition({
-            x: document.documentElement.clientWidth / 2,
-            y: document.documentElement.clientHeight - this.height * 2
-        });
+  constructor(...args) {
+    super(...args);
+    this.updatePosition({
+      x: document.documentElement.clientWidth / 2,
+      y: document.documentElement.clientHeight - this.height * 2
+    });
 
-        window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e))
-    }
+    window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e));
+  }
 
-    private onKeyDown(event: KeyboardEvent): void {
-        const game = Game.getInstance();
-        switch (event.keyCode) {
-            case 65:
-                console.log(this.x, this.y)
-                if (!(this.x - this.width < document.documentElement.clientLeft)) {
-                    this.updatePosition({
-                        x: this.x - this.width
-                    });
-                }
-                break;
-            case 68:
-                if (!(this.x + 2 * this.width > document.documentElement.clientWidth)) {
-                    this.updatePosition({ x: this.x + this.width });
-                }
-                break;
-            case 32:
-                if (!game.rocket.active) {
-                    game.rocket.start(this.x + (this.width / 2), this.y);
-                    game.rocket.move();
-                }
-                break;
+  private onKeyDown(event: KeyboardEvent): void {
+    const game = Game.getInstance();
+    switch (event.keyCode) {
+      case 65:
+        if (!(this.x - this.width < document.documentElement.clientLeft)) {
+          this.updatePosition({
+            x: this.x - this.width
+          });
         }
+        break;
+      case 68:
+        if (!(this.x + 2 * this.width > document.documentElement.clientWidth)) {
+          this.updatePosition({ x: this.x + this.width });
+        }
+        break;
+      case 32:
+        if (!game.rocket.active) {
+          game.rocket.start(this.x + this.width / 2, this.y);
+          game.rocket.move();
+        }
+        break;
     }
+  }
 }
