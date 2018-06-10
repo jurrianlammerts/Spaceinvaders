@@ -6,7 +6,7 @@ export default class Alien extends GameObject {
   public currentDirection: number = Alien.Direction.Right;
   public active: boolean = false;
 
-  private movementSpeed: number = 1;
+  private movementSpeed: number = 10;
 
   private viewPort: HTMLElement;
 

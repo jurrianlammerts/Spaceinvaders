@@ -38,3 +38,17 @@ principes hierin toe.
 In de link hieronder staat mijn uitgevoerde pull-request op de repository van klasgenoot Marvin. De toegepaste principes van OOP die ik heb toegevoegd zijn terug te zien in het gescheiden van de toegevoegde code in de game componenten. Ik heb hiervoor de achtergondmuziek in het Game object gezet en de SFX in het Car object. Wanneer de instantie van dit object verwijderd zou worden, dan zal het SFX van Car ook verwijderd worden.
 
 [Pull-Request](https://github.com/dafkas/typescript-game/pull/2)
+
+# Peer review
+
+__Week 6: PEER REVIEW__
+* Bestudeer het project van een medestudent en installeer zijn/haar game
+werkend op je eigen machine.
+* Beoordeel de OOP ontwerptechnieken die gebruikt zijn in de code - zijn
+alle technieken aanwezig en zijn ze correct toegepast?
+* Maak een issue aan in de repository van de medestudent, hierin schrijf je
+je beoordeling. De link naar deze issue komt in je eigen ReadMe file.
+
+In de link hieronder staat mijn uitgevoerde issue op de repository van klasgenoot Joey. 
+
+[Peer-Review](https://github.com/joey-school/Neverest/issues/1)

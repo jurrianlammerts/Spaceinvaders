@@ -1,8 +1,10 @@
 import GameObject from "./GameObject";
 import Game from "./Game";
+import Alien from "./Alien";
 
 export default class Ship extends GameObject {
   private spriteURL = null;
+  public aliens: Alien;
 
   constructor(...args) {
     super(...args);

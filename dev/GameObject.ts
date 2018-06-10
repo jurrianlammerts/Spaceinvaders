@@ -3,6 +3,7 @@ import Alien from './Alien';
 import applyStyles from "./util/applyStyles"
 
 export default class GameObject {
+    private game:Subject
     public element: HTMLElement;
     public width: number;
     public height: number;
@@ -37,6 +38,10 @@ export default class GameObject {
         applyStyles({
             transform: `translate3D(${this.x}px, ${this.y}px, 0px)`
         }, this.element);
+    }
+
+    public getRectangle() {
+        return this.element.getBoundingClientRect()
     }
 
     public start(x: number, y: number) {

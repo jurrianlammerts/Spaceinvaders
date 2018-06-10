@@ -11,25 +11,30 @@ export default class Game {
 
   private startButton: HTMLElement;
   private gameControls: HTMLElement;
+  private endScreen: HTMLElement;
+  public element: HTMLElement;
 
   public viewPort: HTMLElement = null;
   public running: boolean = false;
 
   private ship: Ship = null;
   public aliens: Alien[] = [];
-
   public rocket: Rocket = null;
   // public currentWeapon: WeaponBehaviour;
 
   private scoreboard: HTMLElement;
   private lblScore: HTMLLabelElement = null;
   private score: number = 0;
+  private logo: HTMLImageElement;
+  private logoDiv: HTMLElement;
 
   private alienColumns: number = 10;
   private alienRows: number = 1;
 
   private totalAliensAlive: number = 0;
   private wave: number = 1;
+
+  private observers: Observer[] = [];
 
   constructor() {
     this.initiateStartScreen();
@@ -50,16 +55,32 @@ export default class Game {
     );
     document.body.appendChild(this.viewPort);
 
+    this.logoDiv = document.createElement("div");
+    this.logo = document.createElement("img");
+    this.logo.src = "./assets/images/logo.jpg";
+    this.logoDiv.appendChild(this.logo);
+
+    applyStyles(
+      {
+        position: "absolute",
+        top: "15%",
+        left: "45%",
+        height: "68px",
+      },
+      this.logo
+    );
+    document.body.appendChild(this.logoDiv);
+
     this.gameControls = document.createElement("div");
-    this.gameControls.innerHTML =
-      "Use 'A' to move left, 'D' to move right & spacebar to shoot ";
+    this.gameControls.innerText =
+      "Use A to move left, D to move right & spacebar to shoot";
     applyStyles(
       {
         background: "none",
         border: "2px solid",
         position: "absolute",
         top: "35%",
-        left: "28%",
+        left: "30%",
         color: "white",
         "font-family": "Work sans, Open sans, sans-serif",
         margin: "0.5em",
@@ -77,7 +98,51 @@ export default class Game {
         border: "2px solid",
         position: "absolute",
         top: "50%",
-        left: "43%",
+        left: "45%",
+        color: "white",
+        "font-family": "Open sans, sans-serif",
+        "font-size": "15px",
+        margin: "0.5em",
+        padding: "1em 2em",
+        display: "inline-block",
+        transition: "all 0.4s cubic-bezier(0.25, 0.1, 0.2, 1)"
+      },
+      this.startButton
+    );
+    this.viewPort.appendChild(this.startButton);
+    this.startButton.addEventListener("click", (e: MouseEvent) =>
+      this.startGame()
+    );
+  }
+
+  public initiateEndScreen() {
+    this.endScreen = document.createElement("div");
+    this.endScreen.innerHTML = "R.I.P.";
+    applyStyles(
+      {
+        background: "none",
+        border: "2px solid",
+        position: "absolute",
+        top: "35%",
+        left: "30%",
+        color: "white",
+        "font-family": "Work sans, Open sans, sans-serif",
+        margin: "0.5em",
+        padding: "1em 2em"
+      },
+      this.endScreen
+    );
+    this.viewPort.appendChild(this.endScreen);
+
+    this.startButton = document.createElement("button");
+    this.startButton.innerHTML = "START";
+    applyStyles(
+      {
+        background: "none",
+        border: "2px solid",
+        position: "absolute",
+        top: "50%",
+        left: "45%",
         color: "white",
         "font-family": "Open sans, sans-serif",
         "font-size": "15px",
@@ -129,6 +194,12 @@ export default class Game {
       },
       this.gameControls
     );
+    applyStyles(
+      {
+        display: "none"
+      },
+      this.logoDiv
+    );
   }
 
   private startGame() {
@@ -138,6 +209,15 @@ export default class Game {
     this.lblScore = <HTMLLabelElement>document.getElementById("score");
     this.initiateBattlefield();
     this.gameLoop();
+  }
+
+  public checkCollision(a: ClientRect, b: ClientRect) {
+    return (
+      a.left <= b.right &&
+      b.left <= a.right &&
+      a.top <= b.bottom &&
+      b.top <= a.bottom
+    );
   }
 
   static getInstance() {
@@ -219,8 +299,6 @@ export default class Game {
         }
       }
     }
-
-    // TODO: collision detection voor player en dan game over
     for (var index = 0; index < this.aliens.length; index++)
       if (this.aliens[index].active) this.aliens[index].move();
   }
@@ -228,5 +306,11 @@ export default class Game {
   private gameLoop(): void {
     this.updateGame();
     requestAnimationFrame(() => this.gameLoop());
+  }
+
+  public reset() {
+    this.observers.forEach(element => {
+      element.reset();
+    });
   }
 }
