@@ -1,10 +1,13 @@
 import GameObject from "./GameObject";
 import Game from "./Game";
 import Alien from "./Alien";
+import WeaponBehaviour from "./WeaponBehaviour";
+import Rocket from "./Rocket";
 
 export default class Ship extends GameObject {
   private spriteURL = null;
   public aliens: Alien;
+  public weaponbehaviour: WeaponBehaviour;
 
   constructor(...args) {
     super(...args);
@@ -12,7 +15,6 @@ export default class Ship extends GameObject {
       x: document.documentElement.clientWidth / 2,
       y: document.documentElement.clientHeight - this.height * 2
     });
-
     window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e));
   }
 
@@ -31,10 +33,20 @@ export default class Ship extends GameObject {
           this.updatePosition({ x: this.x + this.width });
         }
         break;
-      case 32:
+      case 87:
         if (!game.rocket.active) {
           game.rocket.start(this.x + this.width / 2, this.y);
           game.rocket.move();
+        } else if (!game.laser.active) {
+          game.laser.start(this.x + this.width / 2, this.y);
+          game.laser.move();
+        }
+        break;
+      case 83:
+        console.log("spray");
+        if (!game.laser.active) {
+          game.laser.start(this.x + this.width / 2, this.y);
+          game.laser.move();
         }
         break;
     }

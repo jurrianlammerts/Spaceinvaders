@@ -3,7 +3,8 @@
 Een game gemaakt in Typescript voor het leren van OOP
 
 # Installation
-run npm install then run webpack
+- run npm install 
+- run webpack
 
 # OOP principles
 

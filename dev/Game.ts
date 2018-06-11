@@ -2,6 +2,8 @@ import Alien from "./Alien";
 import Ship from "./Ship";
 import Rocket from "./Rocket";
 import applyStyles from "./util/applyStyles";
+import Laser from "./Laser";
+import WeaponBehaviour from "./WeaponBehaviour";
 
 export default class Game {
   private static instance: Game;
@@ -20,7 +22,8 @@ export default class Game {
   private ship: Ship = null;
   public aliens: Alien[] = [];
   public rocket: Rocket = null;
-  // public currentWeapon: WeaponBehaviour;
+  public laser: Laser = null;
+  public currentWeapon: WeaponBehaviour;
 
   private scoreboard: HTMLElement;
   private lblScore: HTMLLabelElement = null;
@@ -64,8 +67,8 @@ export default class Game {
       {
         position: "absolute",
         top: "15%",
-        left: "45%",
-        height: "68px",
+        left: "46%",
+        height: "68px"
       },
       this.logo
     );
@@ -73,17 +76,15 @@ export default class Game {
 
     this.gameControls = document.createElement("div");
     this.gameControls.innerText =
-      "Use A to move left, D to move right & spacebar to shoot";
+      "Use A to move left, D to move right, W to launch a slow rocket & S to shoot a fast laser";
     applyStyles(
       {
-        background: "none",
         border: "2px solid",
         position: "absolute",
         top: "35%",
-        left: "30%",
+        left: "25%",
         color: "white",
         "font-family": "Work sans, Open sans, sans-serif",
-        margin: "0.5em",
         padding: "1em 2em"
       },
       this.gameControls
@@ -236,7 +237,14 @@ export default class Game {
       this.viewPort,
       true
     );
-    // this.currentWeapon = this.rocket;
+
+    this.laser = new Laser(
+      10,
+      25,
+      "./assets/images/Laser.png",
+      this.viewPort,
+      true
+    );
 
     this.generateAliens(this.wave);
   }
@@ -262,6 +270,9 @@ export default class Game {
 
         this.totalAliensAlive++;
       }
+      // if(this.totalAliensAlive >= 20) {
+      //   this.currentWeapon = this.laser;
+      // }
     }
   }
 
@@ -270,10 +281,13 @@ export default class Game {
       const nextWave = this.wave++;
       this.generateAliens(nextWave);
     }
-    if (this.rocket.active) this.rocket.move();
 
-    if (this.rocket.active) {
+    if (this.rocket.active) this.rocket.move();
+    if (this.laser.active) this.laser.move();
+
+    if (this.rocket.active || this.laser.active) {
       const rocketRect: ClientRect = this.rocket.element.getBoundingClientRect();
+      const laserRect: ClientRect = this.laser.element.getBoundingClientRect();
       const totalAliens = this.alienColumns * this.alienRows;
       for (let i = 0; i < this.totalAliensAlive; i++) {
         if (this.aliens[i].active) {
@@ -292,6 +306,21 @@ export default class Game {
             this.aliens.splice(i, 1);
             this.totalAliensAlive--;
             this.rocket.kill();
+
+            this.score += 100;
+            this.lblScore.textContent = this.score.toString();
+          } else if (
+            !(
+              laserRect.right < alienRect.left ||
+              laserRect.left > alienRect.right ||
+              laserRect.bottom < alienRect.top ||
+              laserRect.top > alienRect.bottom
+            )
+          ) {
+            this.aliens[i].kill();
+            this.aliens.splice(i, 1);
+            this.totalAliensAlive--;
+            this.laser.kill();
 
             this.score += 50;
             this.lblScore.textContent = this.score.toString();
