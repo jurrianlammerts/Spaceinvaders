@@ -50,6 +50,7 @@ export default class Game {
     applyStyles(
       {
         position: "absolute",
+        display: "block",
         top: "15%",
         left: "46%",
         height: "68px"
@@ -60,15 +61,17 @@ export default class Game {
 
     this.gameControls = document.createElement("div");
     this.gameControls.innerText =
-      "Use A to move left, D to move right, W to launch a slow rocket & S to shoot a fast laser";
+      "Use A to move left, D to move right, Spacebar to shoot & switch weapons with Z & X";
     applyStyles(
       {
         border: "2px solid",
         position: "absolute",
         top: "35%",
-        left: "25%",
+        left: "20%",
+        right: "20%",
         color: "white",
         "font-family": "Work sans, Open sans, sans-serif",
+        "text-align": "center",
         padding: "1em 2em"
       },
       this.gameControls
@@ -108,7 +111,8 @@ export default class Game {
         border: "2px solid",
         position: "absolute",
         top: "35%",
-        left: "30%",
+        left: "45%",
+        right: "45%",
         color: "white",
         "font-family": "Work sans, Open sans, sans-serif",
         margin: "0.5em",
@@ -119,7 +123,7 @@ export default class Game {
     this.viewPort.appendChild(this.endScreen);
 
     this.startButton = document.createElement("button");
-    this.startButton.innerHTML = "START";
+    this.startButton.innerHTML = "RESTART";
     applyStyles(
       {
         background: "none",
@@ -139,7 +143,7 @@ export default class Game {
     );
     this.viewPort.appendChild(this.startButton);
     this.startButton.addEventListener("click", (e: MouseEvent) =>
-      this.startGame()
+      window.location.reload()
     );
   }
 

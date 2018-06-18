@@ -4,7 +4,6 @@ import Alien from "./Alien";
 import Rocket from "./Rocket";
 import Laser from "./Laser";
 import Ship from "./Ship";
-import Projectile from "./Projectiles";
 
 export default class BattleField implements Observer {
   private ship: Ship = null;
@@ -18,7 +17,7 @@ export default class BattleField implements Observer {
   public alienRows: number = 1;
   public totalAliensAlive: number = 0;
   public wave: number = 1;
-  private projectiles: Projectile[] = [];
+  private gameObjects: GameObject[] = [];
 
   constructor() {
     this.viewPort = <HTMLElement>document.getElementById("root");
@@ -29,30 +28,16 @@ export default class BattleField implements Observer {
   public notify(wave: number) {
     console.log("test");
     Game.getInstance().score *= wave;
+    Game.getInstance().lblScore.textContent = Game.getInstance().score.toString();
     this.wave *= wave;
   }
 
   public initiateBattlefield() {
     this.running = true;
     this.ship = new Ship(35, 60, "./assets/images/Ship.png", this.viewPort);
-    this.rocket = new Rocket(
-      10,
-      30,
-      "./assets/images/Rocket.png",
-      this.viewPort,
-      true
-    );
-
-    this.laser = new Laser(
-      10,
-      25,
-      "./assets/images/Laser.png",
-      this.viewPort,
-      true
-    );
 
     // Polymorfisme
-    this.projectiles.push(this.rocket, this.laser);
+    this.ship.projectiles.push(this.ship.rocket, this.ship.laser);
 
     this.generateAliens(this.wave);
   }
@@ -64,13 +49,13 @@ export default class BattleField implements Observer {
     }
 
     // Polymorfisme
-    for (const p of this.projectiles) {
+    for (const p of this.ship.projectiles) {
       p.move();
     }
 
-    if (this.rocket.active || this.laser.active) {
-      const rocketRect: ClientRect = this.rocket.element.getBoundingClientRect();
-      const laserRect: ClientRect = this.laser.element.getBoundingClientRect();
+    if (this.ship.rocket.active || this.ship.laser.active) {
+      const rocketRect: ClientRect = this.ship.rocket.element.getBoundingClientRect();
+      const laserRect: ClientRect = this.ship.laser.element.getBoundingClientRect();
       const shipRect: ClientRect = this.ship.element.getBoundingClientRect();
 
       for (let i = 0; i < this.totalAliensAlive; i++) {
@@ -78,6 +63,10 @@ export default class BattleField implements Observer {
           let alienRect: ClientRect = this.aliens[
             i
           ].element.getBoundingClientRect();
+          if (this.checkCollision(shipRect, alienRect)) {
+            console.log("R.I.P.");
+            Game.getInstance().initiateEndScreen();
+          }
           if (
             !(
               rocketRect.right < alienRect.left ||
@@ -89,7 +78,7 @@ export default class BattleField implements Observer {
             this.aliens[i].kill();
             this.aliens.splice(i, 1);
             this.totalAliensAlive--;
-            this.rocket.kill();
+            this.ship.rocket.kill();
 
             Game.getInstance().score += 100;
             Game.getInstance().lblScore.textContent = Game.getInstance().score.toString();
@@ -104,12 +93,10 @@ export default class BattleField implements Observer {
             this.aliens[i].kill();
             this.aliens.splice(i, 1);
             this.totalAliensAlive--;
-            this.laser.kill();
+            this.ship.laser.kill();
 
             Game.getInstance().score += 50;
             Game.getInstance().lblScore.textContent = Game.getInstance().score.toString();
-          } else if (this.checkCollision(shipRect, alienRect)) {
-            console.log("rip");
           }
         }
       }
@@ -146,7 +133,6 @@ export default class BattleField implements Observer {
         );
         alien.currentDirection = Alien.Direction.Right;
         this.aliens.push(alien);
-
         this.totalAliensAlive++;
       }
     }

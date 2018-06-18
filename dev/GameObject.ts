@@ -58,7 +58,8 @@ export default class GameObject {
     applyStyles(
       {
         visibility: "visible",
-        display: "block"
+        display: "block",
+        left: "0"
       },
       this.element
     );
@@ -70,7 +71,8 @@ export default class GameObject {
     applyStyles(
       {
         visibility: "hidden",
-        display: "none"
+        display: "none",
+        left: "-999em"
       },
       this.element
     );

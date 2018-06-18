@@ -1,4 +1,3 @@
-import GameObject from "./GameObject";
 import WeaponBehaviour from "./WeaponBehaviour";
 import Ship from "./Ship";
 import Projectile from "./Projectiles";
@@ -7,9 +6,9 @@ export default class Laser extends Projectile implements WeaponBehaviour {
   public active: boolean = false;
   public ship: Ship;
 
-  constructor( ...args) {
+  constructor(ship: Ship, ...args) {
     super(...args);
-
+    this.ship = ship;
   }
 
   private getRandomSpeed(min, max) {
