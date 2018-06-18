@@ -26,6 +26,7 @@ export default class GameObject {
         display: "block",
         backgroundImage: `url(${spriteURL})`,
         backgroundSize: "cover",
+        "background-color": "black",
         width: `${width}px`,
         height: `${height}px`
       },

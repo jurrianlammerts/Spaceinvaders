@@ -26,7 +26,6 @@ export default class BattleField implements Observer {
   }
 
   public notify(wave: number) {
-    console.log("test");
     Game.getInstance().score *= wave;
     Game.getInstance().lblScore.textContent = Game.getInstance().score.toString();
     this.wave *= wave;
@@ -63,8 +62,8 @@ export default class BattleField implements Observer {
           let alienRect: ClientRect = this.aliens[
             i
           ].element.getBoundingClientRect();
-          if (this.checkCollision(shipRect, alienRect)) {
-            console.log("R.I.P.");
+          if (this.checkCollision(alienRect,shipRect)) {
+            console.log("RIP");
             Game.getInstance().initiateEndScreen();
           }
           if (

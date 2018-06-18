@@ -41,6 +41,34 @@ Het Strategy pattern gebruik ik om het gedrag van het Ship te veranderen. Ik heb
         move(): void;
     }
 
+    class Laser extends Projectile implements WeaponBehaviour {
+        public active: boolean = false;
+        public ship: Ship;
+
+        constructor(ship: Ship) {
+            super();
+            this.ship = ship;
+        }
+
+        public move() {
+
+        }
+    }
+
+    class Rocket extends Projectile implements WeaponBehaviour {
+        public active: boolean = false;
+        public ship: Ship;
+
+        constructor(ship: Ship) {
+            super();
+            this.ship = ship;
+        }
+
+        public move() {
+            
+        }
+    }
+
     class Ship extends GameObject implements Subject {
         public ship: Ship;
         public laser: Laser;
@@ -75,7 +103,6 @@ Het Strategy pattern gebruik ik om het gedrag van het Ship te veranderen. Ik heb
             }
         }
     }
-
 
 
 ## Observer

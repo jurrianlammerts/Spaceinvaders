@@ -5,7 +5,6 @@ import Projectile from "./Projectiles";
 export default class Rocket extends Projectile implements WeaponBehaviour {
   public active: boolean = false;
   public ship: Ship;
-  public currentWeapon: WeaponBehaviour;
 
   constructor(ship: Ship, ...args) {
     super(...args);
