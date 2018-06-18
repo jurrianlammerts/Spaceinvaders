@@ -8,7 +8,7 @@ Een game gemaakt in Typescript voor het leren van OOP
 
 # OOP principles
 
-* Singleton 
+## Singleton 
 
 De singleton implementatie wordt gemaakt door een klas te definiëren met de methode getInstance die een nieuw object aanmaakt als het nog niet bestaat en een bestaand object teruggeeft als er al wel een dergelijk object bestaat.
 
@@ -19,12 +19,11 @@ De singleton implementatie wordt gemaakt door een klas te definiëren met de met
         return Game.instance;
     }
 
+## Polymorfisme
 
-* Polymorfisme
+## Strategy
 
-* Strategy
-
-* Observer 
+## Observer 
 
 Het observer pattern heb ik op de volgende manier geimplementeerd: wanneer het Ship een wave van Aliens heeft gekilld, krijgen Aliens en Battlefield te weten dat er een nieuwe wave komt. Het Battlefield gebruikt dit voor een verhoging in de score en Aliens gebruiken dit om hun snelheid te verhogen.
 
