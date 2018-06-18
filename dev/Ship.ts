@@ -2,12 +2,18 @@ import GameObject from "./GameObject";
 import Game from "./Game";
 import Alien from "./Alien";
 import WeaponBehaviour from "./WeaponBehaviour";
+import BattleField from "./BattleField";
+import Laser from "./Laser";
 import Rocket from "./Rocket";
 
-export default class Ship extends GameObject {
-  private spriteURL = null;
-  public aliens: Alien;
-  public weaponbehaviour: WeaponBehaviour;
+export default class Ship extends GameObject implements Subject {
+  public aliens: Alien[];
+  public battlefield: BattleField;
+  public laser: Laser;
+  public rocket: Rocket;
+  public currentWeapon: WeaponBehaviour;
+  public observers: Observer[] = [];
+  public wave: number;
 
   constructor(...args) {
     super(...args);
@@ -16,6 +22,21 @@ export default class Ship extends GameObject {
       y: document.documentElement.clientHeight - this.height * 2
     });
     window.addEventListener("keydown", (e: KeyboardEvent) => this.onKeyDown(e));
+  }
+
+  public subscribe(o: Observer) {
+    this.observers.push(o);
+  }
+
+  public unsubscribe(o: Observer) {
+    let index = this.observers.indexOf(o);
+    this.observers.splice(index, 1);
+  }
+
+  public sendMessage() {
+    for (let c of this.observers) {
+      c.notify(2);
+    }
   }
 
   private onKeyDown(event: KeyboardEvent): void {
@@ -34,19 +55,22 @@ export default class Ship extends GameObject {
         }
         break;
       case 87:
-        if (!game.rocket.active) {
-          game.rocket.start(this.x + this.width / 2, this.y);
-          game.rocket.move();
-        } else if (!game.laser.active) {
-          game.laser.start(this.x + this.width / 2, this.y);
-          game.laser.move();
+        if (!game.battlefield.laser.active && !game.battlefield.rocket.active) {
+          game.battlefield.rocket.start(this.x + this.width / 2, this.y);
+          game.battlefield.rocket.move();
         }
         break;
       case 83:
-        console.log("spray");
-        if (!game.laser.active) {
-          game.laser.start(this.x + this.width / 2, this.y);
-          game.laser.move();
+        if (!game.battlefield.laser.active && !game.battlefield.rocket.active) {
+          game.battlefield.laser.start(this.x + this.width / 2, this.y);
+          game.battlefield.laser.move();
+        }
+        break;
+      case 32:
+        if (!game.battlefield.laser.active) {
+          this.currentWeapon = game.battlefield.laser;
+        } else if (!game.battlefield.rocket.active == true) {
+          this.currentWeapon = this.rocket;
         }
         break;
     }

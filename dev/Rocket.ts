@@ -1,8 +1,9 @@
 import GameObject from "./GameObject";
 import WeaponBehaviour from "./WeaponBehaviour";
 import Ship from "./Ship";
+import Projectile from "./Projectiles";
 
-export default class Rocket extends GameObject implements WeaponBehaviour {
+export default class Rocket extends Projectile implements WeaponBehaviour {
   public active: boolean = false;
   private spriteURL = null;
   public ship:Ship
@@ -12,6 +13,7 @@ export default class Rocket extends GameObject implements WeaponBehaviour {
     super(...args);
   }
 
+  // Polymorfisme
   public move() {
     if (this.active) {
       this.updatePosition({

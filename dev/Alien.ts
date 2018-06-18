@@ -1,18 +1,21 @@
 import GameObject from "./GameObject";
-import applyStyles from "./util/applyStyles";
 
-export default class Alien extends GameObject {
+export default class Alien extends GameObject implements Observer {
   public static Direction = { Left: 1, Right: 2 };
   public currentDirection: number = Alien.Direction.Right;
   public active: boolean = false;
+  private subject: Subject;
+  public movementSpeed: number = 10;
 
-  private movementSpeed: number = 10;
-
-  private viewPort: HTMLElement;
-
-  constructor(movementSpeed: number, ...args) {
+  constructor(s: Subject, movementSpeed: number, ...args) {
     super(...args);
     this.movementSpeed = movementSpeed;
+    this.subject = s;
+    this.subject.subscribe(this);
+  }
+
+  public notify(wave: number) {
+    this.movementSpeed *= 0,5 * wave;
   }
 
   public move() {

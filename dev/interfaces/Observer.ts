@@ -1,3 +1,3 @@
 interface Observer {
-    reset():void
+  notify(wave: number): void;
 }

@@ -1,10 +1,10 @@
 import GameObject from "./GameObject";
 import WeaponBehaviour from "./WeaponBehaviour";
 import Ship from "./Ship";
+import Projectile from "./Projectiles";
 
-export default class Laser extends GameObject implements WeaponBehaviour {
+export default class Laser extends Projectile implements WeaponBehaviour {
   public active: boolean = false;
-  private spriteURL = null;
   public ship: Ship;
 
   constructor( ...args) {

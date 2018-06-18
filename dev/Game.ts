@@ -1,9 +1,5 @@
-import Alien from "./Alien";
-import Ship from "./Ship";
-import Rocket from "./Rocket";
 import applyStyles from "./util/applyStyles";
-import Laser from "./Laser";
-import WeaponBehaviour from "./WeaponBehaviour";
+import BattleField from "./BattleField";
 
 export default class Game {
   private static instance: Game;
@@ -19,25 +15,13 @@ export default class Game {
   public viewPort: HTMLElement = null;
   public running: boolean = false;
 
-  private ship: Ship = null;
-  public aliens: Alien[] = [];
-  public rocket: Rocket = null;
-  public laser: Laser = null;
-  public currentWeapon: WeaponBehaviour;
+  public battlefield: BattleField;
 
   private scoreboard: HTMLElement;
-  private lblScore: HTMLLabelElement = null;
-  private score: number = 0;
+  public lblScore: HTMLLabelElement = null;
+  public score: number = 0;
   private logo: HTMLImageElement;
   private logoDiv: HTMLElement;
-
-  private alienColumns: number = 10;
-  private alienRows: number = 1;
-
-  private totalAliensAlive: number = 0;
-  private wave: number = 1;
-
-  private observers: Observer[] = [];
 
   constructor() {
     this.initiateStartScreen();
@@ -105,8 +89,7 @@ export default class Game {
         "font-size": "15px",
         margin: "0.5em",
         padding: "1em 2em",
-        display: "inline-block",
-        transition: "all 0.4s cubic-bezier(0.25, 0.1, 0.2, 1)"
+        display: "inline-block"
       },
       this.startButton
     );
@@ -208,138 +191,17 @@ export default class Game {
     this.initiateScoreboard();
     this.viewPort = <HTMLElement>document.getElementById("root");
     this.lblScore = <HTMLLabelElement>document.getElementById("score");
-    this.initiateBattlefield();
+    this.battlefield = new BattleField();
     this.gameLoop();
   }
 
-  public checkCollision(a: ClientRect, b: ClientRect) {
-    return (
-      a.left <= b.right &&
-      b.left <= a.right &&
-      a.top <= b.bottom &&
-      b.top <= a.bottom
-    );
-  }
-
-  static getInstance() {
+  public static getInstance() {
     if (!Game.instance) Game.instance = new Game();
     return Game.instance;
   }
 
-  public initiateBattlefield() {
-    this.running = true;
-
-    this.ship = new Ship(35, 60, "./assets/images/Ship.png", this.viewPort);
-    this.rocket = new Rocket(
-      10,
-      25,
-      "./assets/images/Rocket.png",
-      this.viewPort,
-      true
-    );
-
-    this.laser = new Laser(
-      10,
-      25,
-      "./assets/images/Laser.png",
-      this.viewPort,
-      true
-    );
-
-    this.generateAliens(this.wave);
-  }
-
-  private generateAliens(wave: number): void {
-    const offset = 20;
-    for (let y = 0; y < this.alienRows * this.wave; y++) {
-      for (let x = 0; x < this.alienColumns; x++) {
-        const alien = new Alien(
-          wave * 2,
-          47,
-          34,
-          "./assets/images/Invader.png",
-          this.viewPort,
-          true
-        );
-        alien.start(
-          (alien.width + offset) * x + alien.width,
-          (alien.height + offset) * y + alien.width
-        );
-        alien.currentDirection = Alien.Direction.Right;
-        this.aliens.push(alien);
-
-        this.totalAliensAlive++;
-      }
-      // if(this.totalAliensAlive >= 20) {
-      //   this.currentWeapon = this.laser;
-      // }
-    }
-  }
-
-  private updateGame() {
-    if (this.totalAliensAlive === 0) {
-      const nextWave = this.wave++;
-      this.generateAliens(nextWave);
-    }
-
-    if (this.rocket.active) this.rocket.move();
-    if (this.laser.active) this.laser.move();
-
-    if (this.rocket.active || this.laser.active) {
-      const rocketRect: ClientRect = this.rocket.element.getBoundingClientRect();
-      const laserRect: ClientRect = this.laser.element.getBoundingClientRect();
-      const totalAliens = this.alienColumns * this.alienRows;
-      for (let i = 0; i < this.totalAliensAlive; i++) {
-        if (this.aliens[i].active) {
-          let alienRect: ClientRect = this.aliens[
-            i
-          ].element.getBoundingClientRect();
-          if (
-            !(
-              rocketRect.right < alienRect.left ||
-              rocketRect.left > alienRect.right ||
-              rocketRect.bottom < alienRect.top ||
-              rocketRect.top > alienRect.bottom
-            )
-          ) {
-            this.aliens[i].kill();
-            this.aliens.splice(i, 1);
-            this.totalAliensAlive--;
-            this.rocket.kill();
-
-            this.score += 100;
-            this.lblScore.textContent = this.score.toString();
-          } else if (
-            !(
-              laserRect.right < alienRect.left ||
-              laserRect.left > alienRect.right ||
-              laserRect.bottom < alienRect.top ||
-              laserRect.top > alienRect.bottom
-            )
-          ) {
-            this.aliens[i].kill();
-            this.aliens.splice(i, 1);
-            this.totalAliensAlive--;
-            this.laser.kill();
-
-            this.score += 50;
-            this.lblScore.textContent = this.score.toString();
-          }
-        }
-      }
-    }
-    for (var index = 0; index < this.aliens.length; index++)
-      if (this.aliens[index].active) this.aliens[index].move();
-  }
-
   private gameLoop(): void {
-    this.updateGame();
+    this.battlefield.updateGame();
     requestAnimationFrame(() => this.gameLoop());
-  }
-
-  public reset() {
-    this.observers.forEach(element => {
-      element.reset();
-    });
   }
 }
