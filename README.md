@@ -28,7 +28,7 @@ De singleton implementatie wordt gemaakt door een klas te definiëren met de met
 
 Het observer pattern heb ik op de volgende manier geimplementeerd: wanneer het Ship een wave van Aliens heeft gekilld, krijgen Aliens en Battlefield te weten dat er een nieuwe wave komt. Het Battlefield gebruikt dit voor een verhoging in de score en Aliens gebruiken dit om hun snelheid te verhogen.
 
-* Subject
+** Subject **
 
         interface Subject {
             observers: Observer[];
@@ -60,7 +60,7 @@ Het observer pattern heb ik op de volgende manier geimplementeerd: wanneer het S
             }
         }  
 
-* Observer
+** Observer **
 
         interface Observer {
             notify(wave: number): void;
