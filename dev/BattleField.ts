@@ -116,7 +116,7 @@ export default class BattleField implements Observer {
   }
 
   public generateAliens(wave: number): void {
-    const offset = 20;
+    const offset = 17;
     for (let y = 0; y < this.alienRows * this.wave; y++) {
       for (let x = 0; x < this.alienColumns; x++) {
         const alien = new Alien(
