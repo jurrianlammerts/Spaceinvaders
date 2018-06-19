@@ -22,6 +22,7 @@ export default class Game {
   public score: number = 0;
   private logo: HTMLImageElement;
   private logoDiv: HTMLElement;
+  private rip: HTMLImageElement;
 
   constructor() {
     this.initiateStartScreen();
@@ -103,24 +104,28 @@ export default class Game {
   }
 
   public initiateEndScreen() {
+
+    // Polymorfisme
+    for (const o of this.battlefield.gameObjects) {
+      o.kill();
+    }
+
     this.endScreen = document.createElement("div");
-    this.endScreen.innerHTML = "R.I.P.";
+    this.rip = document.createElement("img");
+    this.rip.src = "./assets/images/rip.png";
+    this.endScreen.appendChild(this.rip);
+
     applyStyles(
       {
-        background: "none",
-        border: "2px solid",
         position: "absolute",
+        display: "block",
         top: "35%",
-        left: "45%",
-        right: "45%",
-        color: "white",
-        "font-family": "Work sans, Open sans, sans-serif",
-        margin: "0.5em",
-        padding: "1em 2em"
+        left: "48%",
+        height: "68px"
       },
-      this.endScreen
+      this.rip
     );
-    this.viewPort.appendChild(this.endScreen);
+    document.body.appendChild(this.endScreen);
 
     this.startButton = document.createElement("button");
     this.startButton.innerHTML = "RESTART";
@@ -131,12 +136,13 @@ export default class Game {
         position: "absolute",
         top: "50%",
         left: "45%",
+        right: "45%",
         color: "white",
         "font-family": "Open sans, sans-serif",
         "font-size": "15px",
         margin: "0.5em",
         padding: "1em 2em",
-        display: "inline-block",
+        display: "block",
         transition: "all 0.4s cubic-bezier(0.25, 0.1, 0.2, 1)"
       },
       this.startButton

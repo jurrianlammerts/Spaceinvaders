@@ -32,6 +32,25 @@ De polymorfisme implementatie is terug te vinden in de class Projectiles. Dit is
       p.move();
     }
 
+
+De tweede implementatie is terug te vinden in de class GameObjects. Het polymorfisme is toegepast bij de children van deze class. In de class Battlefield worden ze gepusht en in de class Game wordt er door alle objecten geloopt om de functie van de parent aan te spreken. Dit gebeurd wanneer het GameOver is, op dat moment worden alle objecten verborgen en het EndScreen laten zien.
+
+    this.ship = new Ship();
+
+     for (let y = 0; y < this.alienRows * this.wave; y++) {
+      for (let x = 0; x < this.alienColumns; x++) {
+        const alien = new Alien();
+        alien.start();
+        this.aliens.push(alien);
+      }
+    }
+    
+    this.gameObjects.push(this.ship, this.aliens[i]);
+
+    for (const o of this.battlefield.gameObjects) {
+      o.kill();
+    }
+
 ## Strategy
 
 Het Strategy pattern gebruik ik om het gedrag van het Ship te veranderen. Ik heb hiervoor de interface WeaponBehaviour gemaakt. Door op "Z" of "X" kan een gebruiker kiezen tussen het schieten van een Laser of een Rocket.

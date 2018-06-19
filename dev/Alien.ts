@@ -5,7 +5,7 @@ export default class Alien extends GameObject implements Observer {
   public currentDirection: number = Alien.Direction.Right;
   public active: boolean = false;
   private subject: Subject;
-  public movementSpeed: number = 10;
+  public movementSpeed: number = 25;
 
   constructor(s: Subject, movementSpeed: number, ...args) {
     super(...args);

@@ -6,7 +6,7 @@ import Laser from "./Laser";
 import Ship from "./Ship";
 
 export default class BattleField implements Observer {
-  private ship: Ship = null;
+  public ship: Ship = null;
   public aliens: Alien[] = [];
   public rocket: Rocket = null;
   public laser: Laser = null;
@@ -17,7 +17,7 @@ export default class BattleField implements Observer {
   public alienRows: number = 1;
   public totalAliensAlive: number = 0;
   public wave: number = 1;
-  private gameObjects: GameObject[] = [];
+  public gameObjects: GameObject[] = [];
 
   constructor() {
     this.viewPort = <HTMLElement>document.getElementById("root");
@@ -52,51 +52,54 @@ export default class BattleField implements Observer {
       p.move();
     }
 
-    if (this.ship.rocket.active || this.ship.laser.active) {
-      const rocketRect: ClientRect = this.ship.rocket.element.getBoundingClientRect();
-      const laserRect: ClientRect = this.ship.laser.element.getBoundingClientRect();
-      const shipRect: ClientRect = this.ship.element.getBoundingClientRect();
+    const rocketRect: ClientRect = this.ship.rocket.element.getBoundingClientRect();
+    const laserRect: ClientRect = this.ship.laser.element.getBoundingClientRect();
+    const shipRect: ClientRect = this.ship.element.getBoundingClientRect();
 
-      for (let i = 0; i < this.totalAliensAlive; i++) {
-        if (this.aliens[i].active) {
-          let alienRect: ClientRect = this.aliens[
-            i
-          ].element.getBoundingClientRect();
-          if (this.checkCollision(alienRect,shipRect)) {
-            console.log("RIP");
-            Game.getInstance().initiateEndScreen();
-          }
-          if (
-            !(
-              rocketRect.right < alienRect.left ||
-              rocketRect.left > alienRect.right ||
-              rocketRect.bottom < alienRect.top ||
-              rocketRect.top > alienRect.bottom
-            )
-          ) {
-            this.aliens[i].kill();
-            this.aliens.splice(i, 1);
-            this.totalAliensAlive--;
-            this.ship.rocket.kill();
+    for (let i = 0; i < this.totalAliensAlive; i++) {
+      if (this.aliens[i].active) {
+        let alienRect: ClientRect = this.aliens[
+          i
+        ].element.getBoundingClientRect();
 
-            Game.getInstance().score += 100;
-            Game.getInstance().lblScore.textContent = Game.getInstance().score.toString();
-          } else if (
-            !(
-              laserRect.right < alienRect.left ||
-              laserRect.left > alienRect.right ||
-              laserRect.bottom < alienRect.top ||
-              laserRect.top > alienRect.bottom
-            )
-          ) {
-            this.aliens[i].kill();
-            this.aliens.splice(i, 1);
-            this.totalAliensAlive--;
-            this.ship.laser.kill();
+        this.gameObjects.push(this.ship, this.aliens[i]);
 
-            Game.getInstance().score += 50;
-            Game.getInstance().lblScore.textContent = Game.getInstance().score.toString();
-          }
+        if(this.checkCollision(shipRect, alienRect)){
+          Game.getInstance().initiateEndScreen();
+        }
+
+        if (
+          this.ship.currentWeapon.active &&
+          !(
+            rocketRect.right < alienRect.left ||
+            rocketRect.left > alienRect.right ||
+            rocketRect.bottom < alienRect.top ||
+            rocketRect.top > alienRect.bottom
+          )
+        ) {
+          this.aliens[i].kill();
+          this.aliens.splice(i, 1);
+          this.totalAliensAlive--;
+          this.ship.rocket.kill();
+
+          Game.getInstance().score += 100;
+          Game.getInstance().lblScore.textContent = Game.getInstance().score.toString();
+        } else if (
+          this.ship.currentWeapon.active &&
+          !(
+            laserRect.right < alienRect.left ||
+            laserRect.left > alienRect.right ||
+            laserRect.bottom < alienRect.top ||
+            laserRect.top > alienRect.bottom
+          )
+        ) {
+          this.aliens[i].kill();
+          this.aliens.splice(i, 1);
+          this.totalAliensAlive--;
+          this.ship.laser.kill();
+
+          Game.getInstance().score += 50;
+          Game.getInstance().lblScore.textContent = Game.getInstance().score.toString();
         }
       }
     }
@@ -119,7 +122,7 @@ export default class BattleField implements Observer {
       for (let x = 0; x < this.alienColumns; x++) {
         const alien = new Alien(
           this.ship,
-          wave * 2,
+          wave * 3,
           47,
           34,
           "./assets/images/Invader.png",
