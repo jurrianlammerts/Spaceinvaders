@@ -121,7 +121,7 @@ export default class BattleField implements Observer {
       for (let x = 0; x < this.alienColumns; x++) {
         const alien = new Alien(
           this.ship,
-          wave * 3,
+          wave * 2,
           47,
           34,
           "./assets/image/invader.png",
