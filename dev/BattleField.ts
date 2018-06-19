@@ -35,7 +35,6 @@ export default class BattleField implements Observer {
     this.running = true;
     this.ship = new Ship(35, 60, "./assets/images/Ship.png", this.viewPort);
 
-    // Polymorfisme
     this.ship.projectiles.push(this.ship.rocket, this.ship.laser);
 
     this.generateAliens(this.wave);
