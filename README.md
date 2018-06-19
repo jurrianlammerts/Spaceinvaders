@@ -2,6 +2,8 @@
 
 Een game gemaakt in Typescript voor het leren van OOP patterns.
 
+De game is [hier](https://jurrianlammerts.github.io/Spaceinvaders/) te spelen. Tijd om alle Invaders aan te pakken!
+
 # Installation
 
 - run npm install
