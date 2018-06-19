@@ -48,7 +48,7 @@ export default class Ship extends GameObject implements Subject {
       this,
       20,
       72,
-      "./assets/images/rocket.png",
+      "./assets/image/rocket.png",
       Game.getInstance().viewPort,
       true
     );
@@ -57,7 +57,7 @@ export default class Ship extends GameObject implements Subject {
       this,
       5,
       35,
-      "./assets/images/laser.png",
+      "./assets/image/laser.png",
       Game.getInstance().viewPort,
       true
     );

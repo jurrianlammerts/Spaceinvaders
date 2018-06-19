@@ -33,7 +33,7 @@ export default class BattleField implements Observer {
 
   public initiateBattlefield() {
     this.running = true;
-    this.ship = new Ship(35, 60, "./assets/images/Ship.png", this.viewPort);
+    this.ship = new Ship(35, 60, "./assets/image/ship.png", this.viewPort);
 
     this.ship.projectiles.push(this.ship.rocket, this.ship.laser);
 
@@ -124,7 +124,7 @@ export default class BattleField implements Observer {
           wave * 3,
           47,
           34,
-          "./assets/images/Invader.png",
+          "./assets/image/invader.png",
           this.viewPort,
           true
         );

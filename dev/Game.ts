@@ -45,7 +45,7 @@ export default class Game {
 
     this.logoDiv = document.createElement("div");
     this.logo = document.createElement("img");
-    this.logo.src = "./assets/images/logo.jpg";
+    this.logo.src = "./assets/image/logo.jpg";
     this.logoDiv.appendChild(this.logo);
 
     applyStyles(
@@ -112,7 +112,7 @@ export default class Game {
 
     this.endScreen = document.createElement("div");
     this.rip = document.createElement("img");
-    this.rip.src = "./assets/images/rip.png";
+    this.rip.src = "./assets/image/rip.png";
     this.endScreen.appendChild(this.rip);
 
     applyStyles(
