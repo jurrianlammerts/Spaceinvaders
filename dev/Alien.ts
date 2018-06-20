@@ -3,9 +3,8 @@ import GameObject from "./GameObject";
 export default class Alien extends GameObject implements Observer {
   public static Direction = { Left: 1, Right: 2 };
   public currentDirection: number = Alien.Direction.Right;
-  public active: boolean = false;
   private subject: Subject;
-  public movementSpeed: number = 25;
+  private movementSpeed: number = 25;
 
   constructor(s: Subject, movementSpeed: number, ...args) {
     super(...args);
@@ -14,11 +13,11 @@ export default class Alien extends GameObject implements Observer {
     this.subject.subscribe(this);
   }
 
-  public notify(wave: number) {
+  public notify(wave: number): void {
     this.movementSpeed *= 0,5 * wave;
   }
 
-  public move() {
+  public move(): void {
     if (this.active) {
       if (this.x <= 10) {
         this.currentDirection = Alien.Direction.Right;

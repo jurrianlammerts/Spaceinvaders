@@ -1,21 +1,17 @@
 import GameObject from "./GameObject";
 import Game from "./Game";
 import Alien from "./Alien";
-import Rocket from "./Rocket";
-import Laser from "./Laser";
 import Ship from "./Ship";
 
 export default class BattleField implements Observer {
-  public ship: Ship = null;
-  public aliens: Alien[] = [];
-  public rocket: Rocket = null;
-  public laser: Laser = null;
-  public viewPort: HTMLElement = null;
+  private ship: Ship = null;
+  private aliens: Alien[] = [];
+  private viewPort: HTMLElement = null;
   public running: boolean = false;
 
-  public alienColumns: number = 10;
-  public alienRows: number = 1;
-  public totalAliensAlive: number = 0;
+  private alienColumns: number = 10;
+  private alienRows: number = 1;
+  private totalAliensAlive: number = 0;
   public wave: number = 1;
   public gameObjects: GameObject[] = [];
 
@@ -25,13 +21,13 @@ export default class BattleField implements Observer {
     this.ship.subscribe(this);
   }
 
-  public notify(wave: number) {
+  public notify(wave: number): void {
     Game.getInstance().score *= wave;
     Game.getInstance().lblScore.textContent = Game.getInstance().score.toString();
     this.wave *= wave;
   }
 
-  public initiateBattlefield() {
+  private initiateBattlefield(): void {
     this.running = true;
     this.ship = new Ship(35, 60, "./assets/image/ship.png", this.viewPort);
 
@@ -40,7 +36,7 @@ export default class BattleField implements Observer {
     this.generateAliens(this.wave);
   }
 
-  public updateGame() {
+  public updateGame(): void {
     if (this.totalAliensAlive === 0) {
       this.ship.sendMessage();
       this.generateAliens(this.wave);
@@ -106,7 +102,7 @@ export default class BattleField implements Observer {
       if (this.aliens[index].active) this.aliens[index].move();
   }
 
-  public checkCollision(a: ClientRect, b: ClientRect) {
+  private checkCollision(a: ClientRect, b: ClientRect): boolean {
     return (
       a.left <= b.right &&
       b.left <= a.right &&
@@ -115,7 +111,7 @@ export default class BattleField implements Observer {
     );
   }
 
-  public generateAliens(wave: number): void {
+  private generateAliens(wave: number): void {
     const offset = 17;
     for (let y = 0; y < this.alienRows * this.wave; y++) {
       for (let x = 0; x < this.alienColumns; x++) {

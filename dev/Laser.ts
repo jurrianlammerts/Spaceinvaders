@@ -1,9 +1,8 @@
-import WeaponBehaviour from "./WeaponBehaviour";
+import WeaponBehaviour from "./interfaces/WeaponBehaviour";
 import Ship from "./Ship";
 import Projectile from "./Projectiles";
 
 export default class Laser extends Projectile implements WeaponBehaviour {
-  public active: boolean = false;
   public ship: Ship;
 
   constructor(ship: Ship, ...args) {
@@ -11,11 +10,11 @@ export default class Laser extends Projectile implements WeaponBehaviour {
     this.ship = ship;
   }
 
-  private getRandomSpeed(min, max) {
+  private getRandomSpeed(min, max): number {
     return Math.random() * (max - min) + min;
   }
 
-  public move() {
+  public move(): void {
     if (this.active) {
       this.updatePosition({
         x: this.x,

@@ -1,22 +1,16 @@
 import GameObject from "./GameObject";
 import Game from "./Game";
-import Alien from "./Alien";
-import WeaponBehaviour from "./WeaponBehaviour";
-import BattleField from "./BattleField";
+import WeaponBehaviour from "./interfaces/WeaponBehaviour";
 import Laser from "./Laser";
 import Rocket from "./Rocket";
 import Projectile from "./Projectiles";
 
 export default class Ship extends GameObject implements Subject {
-  public aliens: Alien[];
-  public battlefield: BattleField;
-  public ship: Ship;
   public laser: Laser;
   public rocket: Rocket;
   public currentWeapon: WeaponBehaviour;
   public observers: Observer[] = [];
   public projectiles: Projectile[] = [];
-  public wave: number;
 
   constructor(...args) {
     super(...args);
@@ -28,22 +22,22 @@ export default class Ship extends GameObject implements Subject {
     this.setWeapons();
   }
 
-  public subscribe(o: Observer) {
+  public subscribe(o: Observer): void {
     this.observers.push(o);
   }
 
-  public unsubscribe(o: Observer) {
+  public unsubscribe(o: Observer): void {
     let index = this.observers.indexOf(o);
     this.observers.splice(index, 1);
   }
 
-  public sendMessage() {
+  public sendMessage(): void {
     for (let c of this.observers) {
       c.notify(2);
     }
   }
 
-  public setWeapons() {
+  private setWeapons(): void {
     this.rocket = new Rocket(
       this,
       20,

@@ -1,7 +1,6 @@
 import applyStyles from "./util/applyStyles";
 
 export default class GameObject {
-  private game: Subject;
   public element: HTMLElement;
   public width: number;
   public height: number;
@@ -39,7 +38,7 @@ export default class GameObject {
     viewport.appendChild(this.element);
   }
 
-  public updatePosition(pos: any) {
+  public updatePosition(pos: any): void {
     if (pos.x) this.x = pos.x;
     if (pos.y) this.y = pos.y;
     applyStyles(
@@ -50,11 +49,11 @@ export default class GameObject {
     );
   }
 
-  public getRectangle() {
+  public getRectangle(): ClientRect {
     return this.element.getBoundingClientRect();
   }
 
-  public start(x: number, y: number) {
+  public start(x: number, y: number): void {
     this.updatePosition({ x, y });
     applyStyles(
       {
@@ -67,7 +66,7 @@ export default class GameObject {
     this.active = true;
   }
 
-  public kill() {
+  public kill(): void {
     this.active = false;
     applyStyles(
       {
@@ -79,5 +78,5 @@ export default class GameObject {
     );
   }
 
-  public move() {}
+  public move(): void {}
 }

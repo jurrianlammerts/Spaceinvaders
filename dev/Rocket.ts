@@ -1,9 +1,8 @@
-import WeaponBehaviour from "./WeaponBehaviour";
+import WeaponBehaviour from "./interfaces/WeaponBehaviour";
 import Ship from "./Ship";
 import Projectile from "./Projectiles";
 
 export default class Rocket extends Projectile implements WeaponBehaviour {
-  public active: boolean = false;
   public ship: Ship;
 
   constructor(ship: Ship, ...args) {

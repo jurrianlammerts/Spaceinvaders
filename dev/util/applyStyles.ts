@@ -1,10 +1,8 @@
-import entries from 'object.entries';
-
 if (!Object.entries)
     Object.entries = function (obj) {
         var ownProps = Object.keys(obj),
             i = ownProps.length,
-            resArray = new Array(i); // preallocate the Array
+            resArray = new Array(i);
         while (i--)
             resArray[i] = [ownProps[i], obj[ownProps[i]]];
 

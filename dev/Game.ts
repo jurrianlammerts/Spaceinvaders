@@ -6,14 +6,12 @@ export default class Game {
 
   private viewPortHeight: number = document.documentElement.clientHeight;
   private viewPortWidth: number = document.documentElement.clientWidth;
+  public viewPort: HTMLElement = null;
 
   private startButton: HTMLElement;
   private gameControls: HTMLElement;
   private endScreen: HTMLElement;
   public element: HTMLElement;
-
-  public viewPort: HTMLElement = null;
-  public running: boolean = false;
 
   public battlefield: BattleField;
 
@@ -28,7 +26,7 @@ export default class Game {
     this.initiateStartScreen();
   }
 
-  private initiateStartScreen() {
+  private initiateStartScreen(): void {
     this.viewPort = <HTMLElement>document.getElementById("root");
     applyStyles(
       {
@@ -103,8 +101,7 @@ export default class Game {
     );
   }
 
-  public initiateEndScreen() {
-
+  public initiateEndScreen(): void {
     // Polymorfisme
     for (const o of this.battlefield.gameObjects) {
       o.kill();
@@ -153,7 +150,7 @@ export default class Game {
     );
   }
 
-  private initiateScoreboard() {
+  private initiateScoreboard(): void {
     this.scoreboard = document.createElement("div");
     this.scoreboard.innerHTML = "Score: ";
     applyStyles(
@@ -175,7 +172,7 @@ export default class Game {
     this.viewPort.appendChild(this.scoreboard);
   }
 
-  private deleteStartButton() {
+  private deleteStartButton(): void {
     applyStyles(
       {
         display: "none"
@@ -196,7 +193,7 @@ export default class Game {
     );
   }
 
-  private startGame() {
+  private startGame(): void {
     this.deleteStartButton();
     this.initiateScoreboard();
     this.viewPort = <HTMLElement>document.getElementById("root");
