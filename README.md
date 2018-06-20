@@ -6,6 +6,7 @@ De game is [hier](https://jurrianlammerts.github.io/Spaceinvaders/) te spelen. T
 
 # Installation
 
+- clone repository
 - run npm install
 - run webpack
 
@@ -204,7 +205,10 @@ Het observer pattern heb ik op de volgende manier geimplementeerd: wanneer het S
 
 # UML Class diagram
 
+
+
 ![UML](assets/image/UML.png?raw=true "UML")
+
 
 
 # Pull request
