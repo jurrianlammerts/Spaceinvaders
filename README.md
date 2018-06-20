@@ -202,6 +202,11 @@ Het observer pattern heb ik op de volgende manier geimplementeerd: wanneer het S
             }
         }
 
+# UML Class diagram
+
+![UML](assets/image/UML.png?raw=true "UML")
+
+
 # Pull request
 
 **Week 4: PULL REQUEST**
