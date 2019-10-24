@@ -1,8 +1,8 @@
 # Spaceinvaders
 
-Een game gemaakt in Typescript voor het leren van OOP patterns.
+A game made in Typescript for learning OOP patterns.
 
-De game is [hier](https://jurrianlammerts.github.io/Spaceinvaders/) te spelen. Tijd om alle Invaders aan te pakken!
+Click [here](https://jurrianlammerts.github.io/space-invaders/) to play the game. 
 
 # Installation
 
@@ -14,7 +14,7 @@ De game is [hier](https://jurrianlammerts.github.io/Spaceinvaders/) te spelen. T
 
 ## Singleton
 
-De singleton implementatie wordt gemaakt door een klas te definiëren met de methode getInstance die een nieuw object aanmaakt als het nog niet bestaat en een bestaand object teruggeeft als er al wel een dergelijk object bestaat.
+The singleton implementation is created by defining a class with the getInstance method that creates a new object if it does not exist yet and returns an existing object if such an object already exists.
 
     static getInstance() {
         if (!Game.instance)
@@ -23,8 +23,7 @@ De singleton implementatie wordt gemaakt door een klas te definiëren met de met
     }
 
 ## Polymorfisme
-
-De polymorfisme implementatie is terug te vinden in de class Projectiles. Dit is de parent van Rocket & Laser. In de class Battlefield word er door de beide classes heen geloopt, om zo de functie move aan te spreken.
+The polymorphism implementation can be found in the Projectiles class. This is the parent of Rocket & Laser. In the Battlefield class, people walk through both classes to address the move function.
 
     this.rocket = new Rocket();
     this.laser = new Laser();
@@ -36,7 +35,7 @@ De polymorfisme implementatie is terug te vinden in de class Projectiles. Dit is
     }
 
 
-De tweede implementatie is terug te vinden in de class GameObjects. Het polymorfisme is toegepast bij de children van deze class. In de class Battlefield worden ze gepusht en in de class Game wordt er door alle objecten geloopt om de functie van de parent aan te spreken. Dit gebeurd wanneer het GameOver is, op dat moment worden alle objecten verborgen en het EndScreen laten zien.
+The second implementation can be found in the GameObjects class. The polymorphism has been applied to the children of this class. In the Battlefield class, they are pushed and in the Game class, all objects walk to address the function of the parent. This happens when it is GameOver, at which point all objects are hidden and the EndScreen is shown.
 
     this.ship = new Ship();
 
@@ -55,8 +54,7 @@ De tweede implementatie is terug te vinden in de class GameObjects. Het polymorf
     }
 
 ## Strategy
-
-Het Strategy pattern gebruik ik om het gedrag van het Ship te veranderen. Ik heb hiervoor de interface WeaponBehaviour gemaakt. Door op "Z" of "X" kan een gebruiker kiezen tussen het schieten van een Laser of een Rocket.
+I use the Strategy pattern to change the behavior of the Ship. For this I created the Weapon Behavior interface. Pressing "Z" or "X" allows a user to choose between shooting a Laser or a Rocket.
 
     interface WeaponBehaviour extends GameObject {
         ship: Ship;
@@ -128,8 +126,7 @@ Het Strategy pattern gebruik ik om het gedrag van het Ship te veranderen. Ik heb
 
 
 ## Observer
-
-Het observer pattern heb ik op de volgende manier geimplementeerd: wanneer het Ship een wave van Aliens heeft gekilld, krijgen Aliens en Battlefield te weten dat er een nieuwe wave komt. Het Battlefield gebruikt dit voor een verhoging in de score en Aliens gebruiken dit om hun snelheid te verhogen.
+I implemented the observer pattern in the following way: when the Ship has chilled a wave from Aliens, Aliens and Battlefield get to know that a new wave is coming. The Battlefield uses this for an increase in the score and Aliens use this to increase their speed.
 
 ###### Subject
 
@@ -215,12 +212,10 @@ Het observer pattern heb ik op de volgende manier geimplementeerd: wanneer het S
 
 **Week 4: PULL REQUEST**
 
-- Maak een fork van het project van een medestudent.
-- Ga op zoek naar een verbeterpunt. Dit kan een verbetering zijn van
-  incorrecte code of een nieuwe feature. Pas de tot nu toe geleerde OOP
-  principes hierin toe.
+- Fork a project of a fellow student.
+- Look for improvements.
 
-In de link hieronder staat mijn uitgevoerde pull-request op de repository van klasgenoot Marvin. De toegepaste principes van OOP die ik heb toegevoegd zijn terug te zien in het gescheiden van de toegevoegde code in de game componenten. Ik heb hiervoor de achtergondmuziek in het Game object gezet en de SFX in het Car object. Wanneer de instantie van dit object verwijderd zou worden, dan zal het SFX van Car ook verwijderd worden.
+In the link below my executed pull request is on the repository of classmate Marvin. The applied principles of OOP that I have added can be seen in the separation of the added code in the game components. For this I put the background music in the Game object and the SFX in the Car object. If the instance of this object were deleted, the SFX of Car would also be deleted.
 
 [Pull-Request](https://github.com/dafkas/typescript-game/pull/2)
 
@@ -228,13 +223,10 @@ In de link hieronder staat mijn uitgevoerde pull-request op de repository van kl
 
 **Week 6: PEER REVIEW**
 
-- Bestudeer het project van een medestudent en installeer zijn/haar game
-  werkend op je eigen machine.
-- Beoordeel de OOP ontwerptechnieken die gebruikt zijn in de code - zijn
-  alle technieken aanwezig en zijn ze correct toegepast?
-- Maak een issue aan in de repository van de medestudent, hierin schrijf je
-  je beoordeling. De link naar deze issue komt in je eigen ReadMe file.
+- Study the project of a fellow student and install his / her game.
+- Assess the OOP design techniques used in the code, are all techniques present and have they been applied correctly?
+- Create an issue in the fellow student's repository, write your review here. The link to this issue is in your own ReadMe file.
 
-In de link hieronder staat mijn uitgevoerde issue op de repository van klasgenoot Joey.
+In the link below you can find my executed issue on the repository of classmate Joey.
 
 [Peer-Review](https://github.com/joey-school/Neverest/issues/1)
